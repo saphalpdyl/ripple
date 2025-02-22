@@ -28,3 +28,9 @@ export type Card = {
   }
 };
 
+export type FirestoreAuthUserData = {
+  __auth_uid: string;
+  role: "admin" | "user";
+  username: string;
+  id: string;
+}
