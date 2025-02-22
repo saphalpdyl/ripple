@@ -24,7 +24,7 @@ export default function AuthWrapper({
       if ( user ) {
         // Try to get the auth user data from firestore
         const firestoreUser = await AuthHelpers.tryGetExistingUserFromFirestore(firestore, user.uid);
-
+        
         if (!firestoreUser) {
           signOut(fireauth);
           return
