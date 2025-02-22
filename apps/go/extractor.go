@@ -12,6 +12,7 @@ import (
 
 	deepseek "github.com/cohesion-org/deepseek-go"
 	"github.com/cohesion-org/deepseek-go/constants"
+	uuid "github.com/satori/go.uuid"
 )
 
 type Option struct {
@@ -25,6 +26,7 @@ type Answer struct {
 }
 
 type QuestionObject struct {
+	UUID       string   `json:"uuid,omitempty"`
 	Question   string   `json:"question"`
 	Options    []Option `json:"options"`
 	Answer     Answer   `json:"answer"`
@@ -42,6 +44,7 @@ type WhAnswer struct {
 }
 
 type WhQuestion struct {
+	UUID     string     `json:"uuid,omitempty"`
 	Question string     `json:"question"`
 	Answers  []WhAnswer `json:"answers"`
 }
@@ -84,7 +87,7 @@ func ExtractMCQ(path string) (Questions, error) {
 
 		return Questions{}, err
 	}
-	promptBytes, err := os.ReadFile("questions_prompt.txt")
+	promptBytes, err := os.ReadFile("prompts/questions_prompt.txt")
 	if err != nil {
 		return Questions{}, err
 	}
@@ -126,6 +129,13 @@ func ExtractMCQ(path string) (Questions, error) {
 		return Questions{}, err
 	}
 
+	//loop through the questions and attach a new uuid to each question
+
+	for i := range questions.Question {
+		myuuid := uuid.NewV4()
+		questions.Question[i].UUID = myuuid.String()
+	}
+
 	fmt.Printf("Questions: %+v\n", questions)
 
 	return questions, nil
@@ -161,7 +171,7 @@ func ExtractWh(path string) (WhQuestions, error) {
 		return WhQuestions{}, fmt.Errorf("no text found in the file")
 	}
 
-	promptBytes, err := os.ReadFile("wh-questions.txt") // Updated prompt file name
+	promptBytes, err := os.ReadFile("prompts/wh-questions.txt") // Updated prompt file name
 	if err != nil {
 		return WhQuestions{}, err
 	}
@@ -197,6 +207,11 @@ func ExtractWh(path string) (WhQuestions, error) {
 		return WhQuestions{}, err
 	}
 
+	for i := range whQuestions.Questions {
+		myuuid := uuid.NewV4()
+		whQuestions.Questions[i].UUID = myuuid.String()
+	}
+
 	return whQuestions, nil
 }
 
@@ -213,7 +228,7 @@ func Whchecker(question WhQuestion, userAnswer string) (result Result, err error
 	ctx := context.Background()
 	client := deepseek.NewClient(os.Getenv("OPENROUTER_API_KEY"), "https://openrouter.ai/api/v1/")
 
-	promptBytes, err := os.ReadFile("wh-checker.txt")
+	promptBytes, err := os.ReadFile("prompts/wh-checker.txt")
 	if err != nil {
 		return Result{}, err
 	}
@@ -243,8 +258,6 @@ func Whchecker(question WhQuestion, userAnswer string) (result Result, err error
 		log.Printf("No response or choices found")
 		return Result{}, fmt.Errorf("no response or choices found")
 	}
-
-	fmt.Printf("Response: %+v\n", resp)
 
 	extractor := deepseek.NewJSONExtractor(nil)
 	var _result Result
