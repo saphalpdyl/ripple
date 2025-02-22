@@ -2,7 +2,7 @@ import type * as Party from "partykit/server";
 import BasePartyServer from "./core/server-base";
 import { v4 as uuidv4 } from "uuid";
 
-import type { PlayerData, PlayerDeckData, PlayerMiscData } from "@repo/types";
+import type { ClientPlayerData, PlayerData, PlayerDeckData, PlayerMiscData } from "@repo/types";
 import { mockShuffleData } from "./mock-data";
 import { WebSocketEvents } from "@repo/common/constants";
 
@@ -13,6 +13,27 @@ export default class Server extends BasePartyServer implements Party.Server {
   
   private adminUserConnectionId: string | null = null;
 
+  private sendUpdatedPlayerData() {
+    // Compile different data into one client player data object
+    // Loop through all connections ids and create a new object
+    const finalPayload: Record<string, ClientPlayerData> = {};
+    
+    for ( const [connectionId, playerData] of this.users.entries() ) {
+      const deck = this.userDecks[connectionId];
+      const misc = this.userMiscData[connectionId];
+
+      finalPayload[connectionId] = {
+        ...playerData,
+        deck,
+        misc,
+      };
+    }
+
+    this.emitAll(WebSocketEvents.PLAYER_UPDATE, {
+      players: finalPayload,
+    });
+  }
+  
   constructor(readonly room: Party.Room) {
     super(room);
 
@@ -37,6 +58,8 @@ export default class Server extends BasePartyServer implements Party.Server {
           cards: playerDeck,
         };
       }
+
+      this.sendUpdatedPlayerData();
     });
   }
   
@@ -52,6 +75,10 @@ export default class Server extends BasePartyServer implements Party.Server {
   }
 
   onClose(connection: Party.Connection): void | Promise<void> {
+    this.emitWithout(WebSocketEvents.USER_LEFT, {
+      userId: connection.id,
+    }, [connection.id]);
+    
     this.users.delete(connection.id);
     delete this.userDecks[connection.id];
     delete this.userMiscData[connection.id];

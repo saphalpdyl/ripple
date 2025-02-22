@@ -3,6 +3,16 @@ export type GameRoom = {
   initialDeck: Deck;
 }
 
+export type ClientPlayerData = {
+  userId: string;
+  connectionId: string;
+  deck?: Deck;
+  misc?: {
+    score?: number;
+    selected?: string;
+  };
+}
+
 export type PlayerData = {
   connectionId: string;
   userId: string;
