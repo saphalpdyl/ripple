@@ -1,0 +1,12 @@
+Translate the following text into Spanish and Chinese.  Provide the translations in a JSON format with the following structure:
+
+```json
+{
+  "spanish": "The Spanish translation goes here.",
+  "chinese": "The Chinese translation goes here."
+}
+```
+
+Ensure the Chinese translation is in Simplified Chinese.  Do not include any other commentary or explanations in the response. Only provide the JSON object.
+
+Text to translate:
