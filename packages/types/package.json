@@ -1,0 +1,5 @@
+{
+  "name": "@repo/types",
+  "author": "saphalpdyl",
+  "main": "./src/index.ts"
+}
