@@ -8,6 +8,7 @@ import { WebSocketEvents } from "@repo/common/constants";
 
 export default class Server extends BasePartyServer implements Party.Server {
   private users = new Map<string, PlayerData>();
+  private adminUserConnectionId: string | null = null;
 
   constructor(readonly room: Party.Room) {
     super(room);
@@ -30,6 +31,13 @@ export default class Server extends BasePartyServer implements Party.Server {
   }
   
   onConnect(connection: Party.Connection, ctx: Party.ConnectionContext): void | Promise<void> {
+    if ( !this.adminUserConnectionId ) {
+      console.log("Making user " + connection.id + " the admin");
+      this.adminUserConnectionId = connection.id;
+    }
+
+    console.log("User ", connection.id, " joined");
+    
     this.users.set(connection.id, {
       connectionId: connection.id,
       deck: {
@@ -38,5 +46,13 @@ export default class Server extends BasePartyServer implements Party.Server {
       },
       userId: "test-user-id",
     } satisfies PlayerData);
+  }
+
+  onClose(connection: Party.Connection): void | Promise<void> {
+    this.users.delete(connection.id);
+    if ( this.adminUserConnectionId === connection.id ) {
+      console.log("Admin left, making new admin");
+      this.adminUserConnectionId = this.users.keys().next().value || null;
+    }
   }
 }
