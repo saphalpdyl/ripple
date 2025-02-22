@@ -10,7 +10,7 @@ func Imagetotext(path string) (text string, err error) {
 	client := gosseract.NewClient()
 
 	defer client.Close()
-	client.SetImage("image.png")
+	client.SetImage(path)
 	text_, err := client.Text()
 	if err != nil {
 		fmt.Println(err)
