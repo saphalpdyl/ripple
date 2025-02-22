@@ -27,7 +27,7 @@ func TranslateQuestions(questions Questions) (TranslatedQuestions, error) {
 		return TranslatedQuestions{}, fmt.Errorf("failed to marshal questions: %w", err)
 	}
 
-	promptBytes, err := os.ReadFile("translate_prompt.txt")
+	promptBytes, err := os.ReadFile("prompts/translate_prompt.txt")
 	if err != nil {
 		return TranslatedQuestions{}, fmt.Errorf("failed to read translate prompt: %w", err)
 	}
@@ -64,7 +64,7 @@ func TranslateQuestions(questions Questions) (TranslatedQuestions, error) {
 
 // just translate normal text
 func TranslateText(text string) (TranslatedText, error) {
-	promptBytes, err := os.ReadFile("translate_text_prompt.txt")
+	promptBytes, err := os.ReadFile("prompts/translate_text_prompt.txt")
 	if err != nil {
 		return TranslatedText{}, fmt.Errorf("failed to read translate prompt: %w", err)
 	}
