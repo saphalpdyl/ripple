@@ -72,48 +72,6 @@ namespace AuthHelpers {
       return "5XX_INTERNAL_ERROR";
     }
   }
-
-  
-  /**
-   * Signs up a user using Google authentication and creates user data in Firestore.
-   *
-   * @param auth - The Firebase Auth instance.
-   * @param firestore - The Firestore instance.
-   * @returns A promise that resolves to a tuple containing the authenticated user or null, and an error or null.
-   *
-   * @example
-   * ```typescript
-   * const [user, error] = await signUpUserWithGoogle(auth, firestore);
-   * if (user) {
-   *   console.log("User signed up:", user);
-   * } else {
-   *   console.error("Error signing up:", error);
-   * }
-   * ```
-   */
-  export async function signUpUserWithGoogle(
-    auth: Auth,
-    firestore: Firestore,
-  ): Promise<[User | null, unknown | null]> {
-    try {
-      const authProvider = new GoogleAuthProvider();
-      authProvider.addScope("profile")
-      authProvider.addScope("email")
-    
-      const userCreds = await signInWithPopup(auth, authProvider);
-      const authCreds = await GoogleAuthProvider.credentialFromResult(userCreds);
-      
-      // Need to wait for the data to be created in firestore
-      await signOut(auth);
-      await createUserDataInFirestore(firestore, userCreds.user, userCreds.user.displayName ?? "No Name")
-
-      await signInWithCredential(auth, authCreds as AuthCredential);
-  
-      return [userCreds.user, null];
-    } catch(e) {
-      return [null, e];
-    }
-  }
 }
 
 export default AuthHelpers;
