@@ -105,11 +105,11 @@ func main() {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save uploaded file"})
 			return
 		}
-		// mcqquestions, err := ExtractMCQ(savedFilePath)
-		// if err != nil {
-		// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		// 	return
-		// }
+		mcqquestions, err := ExtractMCQ(savedFilePath)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
 
 		whquestions, err := ExtractWh(savedFilePath)
 
@@ -120,7 +120,7 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, gin.H{
-			// "questions":   mcqquestions,
+			"questions":   mcqquestions,
 			"whquestions": whquestions,
 		})
 	})
