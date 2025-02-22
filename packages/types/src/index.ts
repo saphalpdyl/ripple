@@ -6,8 +6,13 @@ export type GameRoom = {
 export type PlayerData = {
   connectionId: string;
   userId: string;
-  deck: Deck;
 };
+
+export type PlayerDeckData = Record<string, Deck>;
+export type PlayerMiscData = Record<string, {
+  selected?: string; // cardId
+  score?: number;
+}>
 
 export type Deck = {
   deckId: string;
