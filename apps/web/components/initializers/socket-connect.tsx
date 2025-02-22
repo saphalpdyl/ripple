@@ -11,7 +11,8 @@ export default function ConnectSocket({
   const { socket, socketConnectCallbacks } = useGlobalStore();
 
   useEffect(() => {
-    if(!socket) return console.error("Socket is not initialized");
+    // if(!socket) return console.error("Socket is not initialized");
+    if ( !socket ) return;
     
     socket.connect();
 

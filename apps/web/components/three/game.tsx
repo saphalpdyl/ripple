@@ -1,6 +1,6 @@
 "use client";
 
-import { Grid, MapControls, OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { Grid, MapControls, OrbitControls, PerspectiveCamera, TransformControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Deck from "@/components/three/deck";
 
@@ -16,6 +16,5 @@ export default function Game() {
 
     <ambientLight intensity={3}/>
     <OrbitControls/>
-
   </Canvas>
-}
+}   

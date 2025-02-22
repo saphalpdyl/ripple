@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 export default function Card({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
-  scale = [1, 1, 1],
   me,
 }: {
   position?: [number, number, number];
@@ -14,33 +14,34 @@ export default function Card({
   me: boolean;
 }) {
   const [ hovering, setHovering ] = useState(false);
-
+  
+  // Load the GLB model
+  const { nodes, materials} = useGLTF('/card_normal.glb');
   const meshRef = useRef<THREE.Mesh>(null);
-  const targetPosition = useRef(new THREE.Vector3(...position));
-
-  const onPointerHover = e => {
+  
+  const onPointerHover = (e: any) => {
     e.stopPropagation();
     setHovering(true);
   };
+  
   const onPointerOut = () => setHovering(false);
   
   useFrame((_, delta) => {
-    if (!meshRef.current) return;
-    if ( !me ) return;
-
+    if (!meshRef.current || !me) return;
     
     const currentPos = meshRef.current.position;
     const targetPos = hovering 
-      ? new THREE.Vector3(position[0], position[1]  + 0.5, position[2])
+      ? new THREE.Vector3(position[0], position[1] + 0.5, position[2])
       : new THREE.Vector3(...position);
     
     // Smoothly interpolate to target position
     currentPos.lerp(targetPos, delta * 10);
   });
+
   
   return (
-    <mesh
-      onClick={e => {
+    <group
+      onClick={(e) => {
         e.stopPropagation();
         console.log('click');
       }}
@@ -49,10 +50,17 @@ export default function Card({
       onPointerOut={onPointerOut}
       position={position}
       rotation={rotation}
-      scale={scale}
+      scale={[1,1,1]}
     >
-      <boxGeometry args={[1, 1.5, 0.05, 32]} />
-      <meshStandardMaterial color="#ddd" />
-    </mesh>
+      {/* Assuming the model's main mesh is called 'Card' - adjust according to your GLB structure */}
+      {/* <primitive object={obj.scene} /> */}
+      <mesh 
+        geometry={nodes.Card.geometry}
+        material={materials.Card}
+      />
+    </group>
   );
 }
+
+// Preload the model
+useGLTF.preload('/card_normal.glb');
