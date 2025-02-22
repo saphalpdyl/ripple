@@ -1,0 +1,45 @@
+Translate the provided JSON structure into both Chinese (Simplified) and Spanish. Maintain the original JSON structure. Only translate the text fields (question, options' text, answer text). Keep the IDs unchanged. Output a JSON object with "chinese" and "spanish" keys, each containing the respective translated questions.
+
+Example input:
+{
+  "questions": [
+    {
+      "question": "What is the capital of France?",
+      "options": [
+        {"Id": 1, "text": "Paris"},
+        {"Id": 2, "text": "London"}
+      ],
+      "answer": {"Id": 1, "text": "Paris"}
+    }
+  ]
+}
+
+Example output:
+{
+  "chinese": {
+    "questions": [
+      {
+        "question": "法国的首都是什么？",
+        "options": [
+          {"Id": 1, "text": "巴黎"},
+          {"Id": 2, "text": "伦敦"}
+        ],
+        "answer": {"Id": 1, "text": "巴黎"}
+      }
+    ]
+  },
+  "spanish": {
+    "questions": [
+      {
+        "question": "¿Cuál es la capital de Francia?",
+        "options": [
+          {"Id": 1, "text": "París"},
+          {"Id": 2, "text": "Londres"}
+        ],
+        "answer": {"Id": 1, "text": "París"}
+      }
+    ]
+  }
+}
+
+Ensure all text fields are accurately translated and the JSON structure is preserved.
