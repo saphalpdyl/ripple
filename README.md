@@ -78,6 +78,8 @@ Ripple basically takes in different forms of academic texts and converts them in
 
 ## How we built it
 
+<img src="/apps/web/public/diagram.png" alt="ripple"/> 
+
 ### Frontend Stack
 
 - React & Next.js: Used for building the main web application with page.tsx components
