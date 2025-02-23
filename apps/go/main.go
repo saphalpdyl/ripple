@@ -79,8 +79,8 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, gin.H{
-			"questions":   questions,
-			"whquestions": whquestions,
+			"mcqquestions": questions,
+			"whquestions":  whquestions,
 		})
 	})
 
@@ -138,8 +138,8 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, gin.H{
-			"questions":   mcqquestions,
-			"whquestions": whquestions,
+			"mcqquestions": mcqquestions,
+			"whquestions":  whquestions,
 		})
 	})
 
