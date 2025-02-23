@@ -79,40 +79,50 @@ export default function Game() {
     }
   }, [roomState]);
 
-  return <Canvas className="h-full w-full">
-
+  return <>
     {
-      roomState === "PLAYING" && (
-        <>
-          <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].rotation as [number, number, number]}   me player={thisPlayer!}/>
-          <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].rotation as [number, number, number]}   player={otherPlayer!} />
-        </>
+      thisPlayer && (
+        <div className="absolute z-[90] left-1/2 -translate-x-1/2 top-2 flex items-center justify-center gap-3 border p-3 rounded-lg text-gray-700">
+          <div className="w-5 h-5 rounded-full bg-green-400 ring-2 ring-green-600 ring-offset-1"></div>
+          <span>You are playing as { thisPlayer?.username } </span>
+        </div>
       )
     }
+    <Canvas className="h-full w-full">
 
-    <ShuffleDeck cards={remainingCards}/>
+      {
+        roomState === "PLAYING" && (
+          <>
+            <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].rotation as [number, number, number]}   me player={thisPlayer!}/>
+            <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].rotation as [number, number, number]}   player={otherPlayer!} />
+          </>
+        )
+      }
 
-    {/* <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/> */}
-    <AnimatedCamera makeDefault position={data.position} rotation={data.rotation} fov={85}/>
+      <ShuffleDeck cards={remainingCards}/>
 
-    <Suspense fallback={null}>
-      <Ground />
-    </Suspense>
+      {/* <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/> */}
+      <AnimatedCamera makeDefault position={data.position} rotation={data.rotation} fov={85}/>
 
-    <ambientLight intensity={1} castShadow/>
-    <hemisphereLight 
-      intensity={0.35}
-      castShadow
-    />
-    <pointLight 
-      position={[0,4,0]} 
-      intensity={30}
-      castShadow
-      shadow-mapSize={[2048, 2048]}
-      shadow-bias={-0.001}
-      shadow-camera-near={0.1}
-      shadow-camera-far={20}
-    />
-    {/* <OrbitControls/> */}
-  </Canvas>
+      <Suspense fallback={null}>
+        <Ground />
+      </Suspense>
+
+      <ambientLight intensity={1} castShadow/>
+      <hemisphereLight 
+        intensity={0.35}
+        castShadow
+      />
+      <pointLight 
+        position={[0,4,0]} 
+        intensity={30}
+        castShadow
+        shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.001}
+        shadow-camera-near={0.1}
+        shadow-camera-far={20}
+      />
+      {/* <OrbitControls/> */}
+    </Canvas>
+  </>
 }   

@@ -11,16 +11,33 @@ import { WebSocketEvents } from "@repo/common/constants";
 import { useParams } from "next/navigation";
 
 import { AnimatePresence, motion } from "motion/react";
+import { useEffect } from "react";
+import { useAuthStore } from "@/store/auth";
+import { generateGamerUsername } from "@/lib/utils";
 
 export default function Room() {
   const { id } = useParams();
   const { socket } = useGlobalStore();
+  const { auth } = useAuthStore();
   const { players, adminUserConnectionId, selectedQuestion, roomState } = useRoomStore();
+
+  useEffect(() => {
+    if ( !socket ) return;
+
+    socket.emit(WebSocketEvents.PLAYER_INFO_UPDATE, {
+      playerInfo: {
+        userId: auth?.user?.uid,
+        username: generateGamerUsername(),
+      },
+      connectionId: socket.id,
+    })
+  }, [socket]);
 
   return <div className="h-screen w-screen">
     <SocketConnection room={id as string || ""}>
       <CardInitialize>
         <ConnectSocket>
+          
           {
             ((Object.keys(players).length) >= 2) && (socket!.id === adminUserConnectionId) && (
               <div 

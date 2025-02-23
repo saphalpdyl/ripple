@@ -30,6 +30,7 @@ export default function AuthWrapper({
           return
         } 
         
+        
         setAuth({
           user: user,
           status: "auth",
