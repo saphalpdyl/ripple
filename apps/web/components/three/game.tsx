@@ -98,9 +98,20 @@ export default function Game() {
       <Ground />
     </Suspense>
 
-    <ambientLight intensity={1}/>
-    <hemisphereLight intensity={0.35}/>
-    <pointLight position={[0,4,0]} intensity={30}/>
+    <ambientLight intensity={1} castShadow/>
+    <hemisphereLight 
+      intensity={0.35}
+      castShadow
+    />
+    <pointLight 
+      position={[0,4,0]} 
+      intensity={30}
+      castShadow
+      shadow-mapSize={[2048, 2048]}
+      shadow-bias={-0.001}
+      shadow-camera-near={0.1}
+      shadow-camera-far={20}
+    />
     {/* <OrbitControls/> */}
   </Canvas>
 }   
