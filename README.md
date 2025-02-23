@@ -1,6 +1,6 @@
 # Ripple
 
-Ripple is a product we built for the UMaimi Horizon AI hackathon(2025), inspired by the challenges of studying for midterms using PDFs and written notes. It provides a 3-d gamified quiz experience built with a Next.js frontend, a Go backend deployed on Cloud Run, and Firebase for database storage. The application leverages a monorepo architecture managed by Turborepo and includes a WebSocket server for real-time communication.
+Ripple is a web application born out of the UMaimi Horizon AI hackathon, inspired by the challenges of studying for midterms using PDFs and written notes. It provides a 3-d gamified quiz experience built with a Next.js frontend, a Go backend deployed on Cloud Run, and Firebase for database storage. The application leverages a monorepo architecture managed by Turborepo and includes a WebSocket server for real-time communication.
 
 ## ✨ Key Features
 
@@ -10,11 +10,9 @@ Ripple is a product we built for the UMaimi Horizon AI hackathon(2025), inspired
 - 🌎 **Multi-Language Support**: Instantly translate to Chinese and Spanish
 - 📱 **Canvas Integration**: Seamlessly import your course materials
 - 🎯 **Accessibility First**: Text-to-speech and keyboard navigation support
+- 🎤 **Mic Integration**: Voice control and speech-to-text support for accessibility and interactive gameplay
 
 ## Technical Features
-
-<img src="/apps/web/public/diagram.png" alt="ripple"/> 
-
 
 *   **Web App:**
     *   User authentication (sign-up, login)
@@ -37,6 +35,7 @@ The project follows a monorepo structure, which promotes code sharing and simpli
 *   **Firebase:** Firebase is used for database storage of the questions for cards.
 *   **WebSocket Server:** The `ws` app uses a WebSocket server to enable real-time communication.
 *   **Shared Components:** The project utilizes shared UI components (`@repo/ui`) to maintain a consistent look and feel across the application.
+*   **ESLint and Prettier:** Code quality is enforced using ESLint and Prettier.
 *   **TypeScript:** The entire project is written in TypeScript, providing static type checking and improved code maintainability.
 
 ## Apps Folder
@@ -81,32 +80,8 @@ Ripple basically takes in different forms of academic texts and converts them in
 
 ## How we built it
 
-### Frontend Stack
-
-- React & Next.js: Used for building the main web application with page.tsx components
-- Three.js & React Three Fiber: Implemented 3D game environment with @react-three/fiber and @react-three/drei
-- TypeScript: For type-safe development across the project
--Zustand: State management for player and game data
-- Firebase: Authentication and real-time database
-- TailwindCSS: Styling and UI components
-Canvas API Integration: Direct connection to educational content
-
-### Backend Stack
-
-- Go with Gin: RESTful API server
-- Tesseract OCR: Text extraction from images and PDFs
-- OpenRouter: AI-powered question generation and translation
-- Cloud Run: Deployment and scaling
-- WebSocket Server: Real-time game state synchronization
-DevOps & Architecture
-- Turborepo: Monorepo management and build optimization
-
-### Integrations
-
-- Canvas LMS API for user info and course content
-- Multi-language support (English, Chinese, Spanish)
-- Text-to-speech accessibility features
-- PDF and PPT file processing
+Frontend: React, Next, Threejs
+Backend: Go with Gin, Tesseract, OpenRouter
 
 ## Challenges we ran into
 
@@ -119,6 +94,35 @@ We are really proud of being able to extend generative AI for more accessibility
 ## What's next for Ripple
 
 We really want to connect Ripple to SMS or a popular messaging service for those who might not be able to load 3D animations in their devices.
+
+## Run Your Own Instance
+
+To run your own instance of Ripple, follow these steps:
+
+### Frontend (`apps/web`)
+
+1.  Navigate to the frontend directory: `cd apps/web`
+2.  Install dependencies: `pnpm install`
+3.  Run the development server: `pnpm dev`
+
+The frontend will be accessible at `localhost:3000` by default.
+
+### Backend (`apps/go`)
+
+1.  Ensure you have Go installed.
+2.  Navigate to the backend directory: `cd apps/go`
+3.  Download dependencies: `go mod download`
+4.  Run the backend: `go run main.go`
+
+The backend will be accessible at `localhost:8080` by default.
+
+### WebSocket Server (`apps/ws`)
+
+1.  Navigate to the WebSocket server directory: `cd apps/ws`
+2.  Install dependencies: `pnpm install`
+3.  Run the server: `pnpm dev`
+
+The WebSocket server will be running on a specific port.
 
 ## Run Your Own Instance
 
