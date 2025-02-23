@@ -119,7 +119,7 @@ export default function Page() {
                 </div>
               </Link>
           <Link href={`/room/${Math.random().toFixed(16).slice(2)}`} className="flex items-center border p-2 gap-4 rounded-lg">
-                <div className="w-3 h-3 bg-red-500 rounded-full flex flex-col">
+                <div className="w-3 h-3 bg-green-500 rounded-full flex flex-col">
                 </div>
                 <div className="flex flex-col items-start">
                   <p>MAT 101</p>
