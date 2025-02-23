@@ -79,7 +79,13 @@ export default function Question({
                 />
               )}
             </div>
-            <div className='flex justify-end'>
+            <div className='flex justify-end gap-2'>
+              <Button className='w-1/5' onClick={(e) => {
+                e.preventDefault();
+                alert("wrong answer");
+              }}>
+                Submit
+              </Button>
               <Button className='w-1/6' onClick={() => handelSpeaker(`${question.question}\n${question.options?.map((opt,i) => `${i+1}.${opt.value}`).join('\n')}.`)}>
               <Volume2 className="" />
               </Button>

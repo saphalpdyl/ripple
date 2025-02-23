@@ -62,7 +62,7 @@ export default function Courses() {
 
 
   const handleSpeak = async () => {
-    await speak("Shut up Saphal. I am a better speaker than you.")
+    await speak("Hello there. You are now on the Canvas screen. Please select your course and files from here!")
   }
 
   if (loading)
