@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Loader2, FileText, Book, Volume2 } from "lucide-react"
+import toast from "react-hot-toast"
 
 interface Course {
   id: number
@@ -56,7 +57,11 @@ export default function Courses() {
   }
 
   const handleFileClick = async (file: File) => {
-    console.log("Getting questions")
+    toast.success("Getting questions from Canvas. This will take some time.")
+    setTimeout(() => {
+      toast.success("Redirecting back to the main page.");
+      window.location = "/"
+    }, 3000);
     var data = await getPPTQuestions();
     console.log(data);}
 
@@ -89,6 +94,7 @@ export default function Courses() {
   return (
     <div className="container mx-auto p-4 max-w-4xl">
       <h1 className="text-3xl font-bold mb-6 text-center">Course Explorer</h1>
+      <p className="italic text-gray-500 text-center">Logged into: <span className="underline">usm.instructure.com/saphalpdyl</span></p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
@@ -144,7 +150,7 @@ export default function Courses() {
       <div className="mt-6 text-center">
         <Button onClick={handleSpeak} className="inline-flex items-center">
           <Volume2 className="mr-2" />
-          Click to hear a greeting
+          What is this all about ?
         </Button>
       </div>
     </div>

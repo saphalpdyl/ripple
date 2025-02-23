@@ -73,7 +73,7 @@ export default function Page() {
                     </div>
                     <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-12 gap-6 w-full hover:bg-gray-200">
                       <Image src="/canvas_logo.png" alt="ss" width={100} height={100}/>
-                      <span className="text-md p-2 text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">Login in to canvas</span>
+                      <Link href="/canvas" className="text-md p-2 text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">Login in to canvas</Link>
                     </div>
                   </div>
                 </div>
