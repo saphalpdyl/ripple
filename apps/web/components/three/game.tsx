@@ -12,6 +12,7 @@ export default function Game() {
     <Deck numberOfCards={5} position={[0, 0, 3]} rotation={[Math.PI * 1.8, 0, 0]} me/>
     <Deck numberOfCards={5} position={[-3.5, 0, 0]} rotation={[0, -Math.PI * 0.5, 0]}/>
 
+
     <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/>
 
     <ambientLight intensity={3}/>
