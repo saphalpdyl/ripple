@@ -7,6 +7,8 @@ import ShuffleDeck from "@/components/three/shuffle_deck";
 import { useRoomStore } from "@/store/players";
 import { ClientPlayerData, PlayerData } from "@repo/types";
 import useGlobalStore from "@/store/global";
+import { Suspense } from "react";
+import Ground from "@/components/three/ground";
 
 const PLAYER_POSITION_INDEX_TO_LOC_ROT = {
   0: {
@@ -41,7 +43,13 @@ export default function Game() {
 
     <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/>
 
-    <ambientLight intensity={3}/>
+    <Suspense fallback={null}>
+      <Ground />
+    </Suspense>
+
+    <ambientLight intensity={1}/>
+    <hemisphereLight intensity={0.35}/>
+    <pointLight position={[0,4,0]} intensity={30}/>
     <OrbitControls/>
   </Canvas>
 }   
