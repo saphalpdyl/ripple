@@ -12,6 +12,9 @@ export default {
 
   theme: {
   	extend: {
+			fontFamily:{
+				vt: ['var(--font-vt323)']
+			},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

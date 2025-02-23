@@ -45,32 +45,34 @@ export default class Server extends BasePartyServer implements Party.Server {
     });
   }
   
+  private startGame() {
+    // Create a copy of the full deck
+    const deck = convertToTypedDeck(mockShuffleData);
+      
+    // Calculate how many cards each player should get
+    const playerCount = this.users.size;
+    const cardsPerPlayer = Math.floor((deck.length * 0.6) / playerCount);
+    
+    // Distribute equal number of unique cards to each player
+    for (const [_, player] of this.users.entries()) {
+      // Take cardsPerPlayer number of cards from the start of the deck
+      const playerDeck = deck.splice(0, cardsPerPlayer);
+
+      this.userDecks[player.connectionId] = {
+        deckId: uuidv4(),
+        cards: playerDeck,
+      };
+    }
+
+    this.remainingCards = deck;
+    this.gameState = "PLAYING";
+    this.sendUpdatedPlayerData();
+  }
+  
   constructor(readonly room: Party.Room) {
     super(room);
 
-    this.on(WebSocketEvents.GAME_START, () => {
-      // Create a copy of the full deck
-      const deck = convertToTypedDeck(mockShuffleData);
-      
-      // Calculate how many cards each player should get
-      const playerCount = this.users.size;
-      const cardsPerPlayer = Math.floor((deck.length * 0.6) / playerCount);
-      
-      // Distribute equal number of unique cards to each player
-      for (const [_, player] of this.users.entries()) {
-        // Take cardsPerPlayer number of cards from the start of the deck
-        const playerDeck = deck.splice(0, cardsPerPlayer);
-
-        this.userDecks[player.connectionId] = {
-          deckId: uuidv4(),
-          cards: playerDeck,
-        };
-      }
-
-      this.remainingCards = deck;
-      this.gameState = "PLAYING";
-      this.sendUpdatedPlayerData();
-    });
+    this.on(WebSocketEvents.GAME_START, this.startGame);
 
   this.on(WebSocketEvents.PLAYER_QUESTION_SELECT, ({ question, playerId }) => {
     if ( this.gameState !== "PLAYING" ) return;
@@ -92,7 +94,7 @@ export default class Server extends BasePartyServer implements Party.Server {
   }
   
   onConnect(connection: Party.Connection, ctx: Party.ConnectionContext): void | Promise<void> {
-    if ( this.gameState === "PLAYING" || Object.keys(this.users).length >= 2 ) return connection.close();
+    if ( this.gameState === "PLAYING" || Object.keys(this.users).length > 2 ) return connection.close();
     
     if ( !this.adminUserConnectionId ) {
       this.adminUserConnectionId = connection.id;
@@ -103,8 +105,12 @@ export default class Server extends BasePartyServer implements Party.Server {
       userId: "test-user-id",
       userIndex: this.userMaxIndex++,
     } satisfies PlayerData);
-
+    
+    if ( this.gameState === "WAITING_FOR_PLAYERS" && Object.keys(Object.fromEntries(this.users)).length >= 2 ) {
+       this.startGame();
+    }
     this.sendUpdatedPlayerData();
+    
   }
 
   onClose(connection: Party.Connection): void | Promise<void> {
