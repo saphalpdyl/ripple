@@ -1,5 +1,5 @@
 import useGlobalStore from "@/store/global";
-import { usePlayersStore } from "@/store/players";
+import { useRoomStore } from "@/store/players";
 import { WebSocketEvents } from "@repo/common/constants";
 import { PlayerData } from "@repo/types";
 import { useEffect } from "react";
@@ -9,7 +9,8 @@ export default function CardInitialize({
 }: { children: React.ReactNode}) {
 
   const { socket } = useGlobalStore();
-  const { setPlayers } = usePlayersStore();
+  const { setPlayers } = useRoomStore();
+
   useEffect(() => {
     if ( !socket ) return;
 
@@ -17,9 +18,21 @@ export default function CardInitialize({
       
     })
     
-    socket.on(WebSocketEvents.PLAYER_UPDATE, data => {
-      
+    socket.on(WebSocketEvents.PLAYER_UPDATE, ({ players }) => {
+      setPlayers(players);
     });
+
+    socket.on(WebSocketEvents.GAME_STATE, ({
+      gameState,
+      remainingCards,
+      admin,
+    }) => {
+      useRoomStore.setState({
+        roomState: gameState,
+        remainingCards,
+        adminUserConnectionId: admin,
+      });
+    })
 
   }, [socket]);
   

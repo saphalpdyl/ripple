@@ -2,7 +2,7 @@ import type * as Party from "partykit/server";
 import BasePartyServer from "./core/server-base";
 import { v4 as uuidv4 } from "uuid";
 
-import type { ClientPlayerData, PlayerData, PlayerDeckData, PlayerMiscData } from "@repo/types";
+import type { Card, ClientPlayerData, PlayerData, PlayerDeckData, PlayerMiscData } from "@repo/types";
 import { mockShuffleData } from "./mock-data";
 import { WebSocketEvents } from "@repo/common/constants";
 
@@ -10,6 +10,9 @@ export default class Server extends BasePartyServer implements Party.Server {
   private users = new Map<string, PlayerData>();
   private userDecks: PlayerDeckData = {};
   private userMiscData: PlayerMiscData = {};
+  private userMaxIndex = 0;
+  private remainingCards: Card[] = [];
+  private gameState: "WAITING_FOR_PLAYERS" | "PLAYING" | "END" = "WAITING_FOR_PLAYERS";
   
   private adminUserConnectionId: string | null = null;
 
@@ -31,6 +34,12 @@ export default class Server extends BasePartyServer implements Party.Server {
 
     this.emitAll(WebSocketEvents.PLAYER_UPDATE, {
       players: finalPayload,
+    });
+
+    this.emitAll(WebSocketEvents.GAME_STATE, {
+      gameState: this.gameState,
+      remaininingCards: this.remainingCards,
+      admin: this.adminUserConnectionId,
     });
   }
   
@@ -59,6 +68,8 @@ export default class Server extends BasePartyServer implements Party.Server {
         };
       }
 
+      this.remainingCards = deck;
+      this.gameState = "PLAYING";
       this.sendUpdatedPlayerData();
     });
   }
@@ -71,10 +82,17 @@ export default class Server extends BasePartyServer implements Party.Server {
     this.users.set(connection.id, {
       connectionId: connection.id,
       userId: "test-user-id",
+      userIndex: this.userMaxIndex++,
     } satisfies PlayerData);
+
+    this.sendUpdatedPlayerData();
   }
 
   onClose(connection: Party.Connection): void | Promise<void> {
+    if ( this.users.size === 1 ) {
+      this.userMaxIndex = 0; // Reset the ordering index
+    }
+    
     this.emitWithout(WebSocketEvents.USER_LEFT, {
       userId: connection.id,
     }, [connection.id]);

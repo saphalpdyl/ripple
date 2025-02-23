@@ -1,5 +1,5 @@
 import useGlobalStore from "@/store/global";
-import Socket from "@/core/socket";
+import Socket from "@/firebase/core/socket";
 import { useEffect } from "react";
 
 import { PARTYKIT_HOST } from "@/env"

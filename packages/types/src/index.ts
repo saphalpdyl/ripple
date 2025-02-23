@@ -16,6 +16,7 @@ export type ClientPlayerData = {
 export type PlayerData = {
   connectionId: string;
   userId: string;
+  userIndex: number;
 };
 
 export type PlayerDeckData = Record<string, Deck>;

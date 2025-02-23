@@ -1,4 +1,4 @@
-import Socket from "@/core/socket";
+import Socket from "@/firebase/core/socket";
 import { create } from "zustand";
 
 interface GlobalState {
