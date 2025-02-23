@@ -10,8 +10,15 @@ import { Dialog, DialogContent, DialogDescription, DialogTrigger } from "@/compo
 import { DialogTitle } from "@radix-ui/react-dialog";
 
 import { File } from "lucide-react";
+import { useEffect } from "react";
+import { firestore } from "@/firebase/init";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Page() {
+
+  
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
@@ -39,7 +46,7 @@ export default function Page() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex gap-6">
         <section className="flex-1 bg-white rounded-lg shadow p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Deck Sources</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Source Decks</h2>
           <div className="flex items-center justify-between">
             <p className="text-gray-600">Start creating your new deck by adding sources.</p>
             <Dialog>
@@ -77,6 +84,30 @@ export default function Page() {
                 </div>
               </DialogContent>
             </Dialog>
+          </div>
+          <div className="flex flex-col gap-2 mt-3">
+              <Link href="/room/Xha872hh3989sahh" className="flex items-center border p-2 gap-4 rounded-lg">
+                <div className="w-3 h-3 bg-red-500 rounded-full flex flex-col">
+                </div>
+                <div className="flex flex-col items-start">
+                  <p>Computer Programming and Arthimetics</p>
+                  <p className="text-xs text-gray-700">12 questions</p>
+                </div>
+                <div className="flex-1 flex justify-end">
+                  <Button className="">Start game</Button>
+                </div>
+              </Link>
+              <Link href="/room/Uaiiuhsd91293098w9" className="flex items-center border p-2 gap-4 rounded-lg">
+                <div className="w-3 h-3 bg-green-500 rounded-full flex flex-col">
+                </div>
+                <div className="flex flex-col items-start">
+                  <p>History of Dynamos</p>
+                  <p className="text-xs text-gray-700">3 questions</p>
+                </div>
+                <div className="flex-1 flex justify-end">
+                  <Button className="">Start game</Button>
+                </div>
+              </Link>
           </div>
         </section>
         <section className="flex-1 bg-white rounded-lg shadow p-6 mb-8">
