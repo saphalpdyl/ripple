@@ -26,12 +26,11 @@ const PLAYER_POSITION_INDEX_TO_LOC_ROT = {
 }
 
 export default function Game() {
+  
   const { roomState, players, remainingCards } = useRoomStore();
   const { socket } = useGlobalStore();
   
-  const otherPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId !== socket?.id)[0];
-  const thisPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId === socket?.id)[0];
-
+  
   const [data, api] = useSpring(() => ({
     position: [0, 100, 0],
     rotation: [Math.PI/2, 0 , 0],
@@ -41,7 +40,9 @@ export default function Game() {
       tension: 70,
     }
   }));
-
+  
+  
+  
   useEffect(() => {
     if ( roomState === "PLAYING" ) {
       api.start({
@@ -50,7 +51,7 @@ export default function Game() {
         fov: 85,
       });
     }
-
+    
     if ( roomState === "END" ) {
       api.start({
         position: [6, 2, 4],
@@ -59,6 +60,15 @@ export default function Game() {
       });
     }
   }, [roomState]);
+
+  try {
+    socket?.id;
+  } catch(e) {
+    return null;
+  }
+
+  const otherPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId !== socket?.id)[0];
+  const thisPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId === socket?.id)[0];
 
   return <>
     {

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import DottedBackground from '@/components/dotted-background';
 import { Volume2 } from 'lucide-react';
 import speak  from "@/actions/speak";
+import toast from 'react-hot-toast';
 
 export default function Question({
   question
@@ -82,7 +83,8 @@ export default function Question({
             <div className='flex justify-end gap-2'>
               <Button className='w-1/5' onClick={(e) => {
                 e.preventDefault();
-                alert("wrong answer");
+                // alert("wrong answer");
+                toast.error('It was the wrong answer');
               }}>
                 Submit
               </Button>

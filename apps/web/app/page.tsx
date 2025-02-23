@@ -2,22 +2,17 @@
 
 import Image from "next/image"
 import { Plus, BookOpen, Trophy, Users, BarChart, FileArchive } from "lucide-react"
-import { OrbitControls, Stage } from "@react-three/drei"
-import { Canvas } from "@react-three/fiber";
-import MapLoader from "@/components/three/map-loader";
 import MapDisplayItem from "@/components/three/map-display-item";
 import { Dialog, DialogContent, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
-import { File } from "lucide-react";
-import { useEffect } from "react";
-import { firestore } from "@/firebase/init";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import useGlobalStore from "@/store/global";
 
 export default function Page() {
 
-  
+  const { setSocket } = useGlobalStore();
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -73,7 +68,7 @@ export default function Page() {
                         className="flex flex-col items-center"
                       >
                         <input type="file" accept="pdf" className="text-xl text-gray-600"/>
-                        <button className="Uploaded">Upload from computer</button>
+                        <Button className="Uploaded mt-5">Upload from computer</Button>
                       </form>
                     </div>
                     <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-12 gap-6 w-full hover:bg-gray-200">
@@ -86,7 +81,7 @@ export default function Page() {
             </Dialog>
           </div>
           <div className="flex flex-col gap-2 mt-3">
-              <Link href="/room/Xha872hh3989sahh" className="flex items-center border p-2 gap-4 rounded-lg">
+              <Link href={`/room/${Math.random().toFixed(16).slice(2)}`} className="flex items-center border p-2 gap-4 rounded-lg">
                 <div className="w-3 h-3 bg-red-500 rounded-full flex flex-col">
                 </div>
                 <div className="flex flex-col items-start">
@@ -97,7 +92,7 @@ export default function Page() {
                   <Button className="">Start game</Button>
                 </div>
               </Link>
-              <Link href="/room/Uaiiuhsd91293098w9" className="flex items-center border p-2 gap-4 rounded-lg">
+              <Link href={`/room/${Math.random().toFixed(16).slice(2)}`} className="flex items-center border p-2 gap-4 rounded-lg">
                 <div className="w-3 h-3 bg-green-500 rounded-full flex flex-col">
                 </div>
                 <div className="flex flex-col items-start">

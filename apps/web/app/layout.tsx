@@ -4,6 +4,8 @@ import { VT323 } from "next/font/google";
 import "./globals.css";
 import App from "@/components/wrappers/auth-wrapper";
 
+import {Toaster} from "react-hot-toast";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -33,6 +35,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${vt323.variable}`}>
         <App>
+          <Toaster position="top-right" />
           {children}
         </App>
       </body>

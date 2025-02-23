@@ -14,36 +14,43 @@ export default function CardInitialize({
   useEffect(() => {
     if ( !socket ) return;
 
-    socket.on(WebSocketEvents.USER_LEFT, ({ userId }) => {
-      const prevPlayers = useRoomStore.getState().players;
-      const newPlayers = { ...prevPlayers };
-      delete newPlayers[userId];
-      setPlayers(newPlayers);
-    })
+    if ( !socket.isRegistered(WebSocketEvents.USER_LEFT))
+      socket.on(WebSocketEvents.USER_LEFT, ({ userId }) => {
+        const prevPlayers = useRoomStore.getState().players;
+        const newPlayers = { ...prevPlayers };
+        delete newPlayers[userId];
+        setPlayers(newPlayers);
+      })
     
-    socket.on(WebSocketEvents.PLAYER_UPDATE, ({ players }) => {
-      setPlayers(players);
-    });
+    
+    if ( !socket.isRegistered(WebSocketEvents.PLAYER_UPDATE))
+      socket.on(WebSocketEvents.PLAYER_UPDATE, ({ players }) => {
+        setPlayers(players);
+      });
 
-    socket.on(WebSocketEvents.GAME_STATE, ({
-      gameState,
-      remainingCards,
-      admin,
-    }) => {
-      useRoomStore.setState({
-        roomState: gameState,
+    if ( !socket.isRegistered(WebSocketEvents.GAME_STATE))
+      socket.on(WebSocketEvents.GAME_STATE, ({
+        gameState,
         remainingCards,
-        adminUserConnectionId: admin,
+        admin,
+      }) => {
+        useRoomStore.setState({
+          roomState: gameState,
+          remainingCards,
+          adminUserConnectionId: admin,
+        });
       });
-    });
 
-    socket.on(WebSocketEvents.PLAYER_QUESTION_SELECT, ({ question, player }) => {
-      question.player = player;
-      
-      useRoomStore.setState({
-        selectedQuestion: question,
+
+    if ( !socket.isRegistered(WebSocketEvents.PLAYER_QUESTION_SELECT))
+      socket.on(WebSocketEvents.PLAYER_QUESTION_SELECT, ({ question, player }) => {
+        question.player = player;
+        
+        useRoomStore.setState({
+          selectedQuestion: question,
+        });
       });
-    });
+
 
   }, [socket]);
   

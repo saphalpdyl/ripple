@@ -14,10 +14,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/auth";
 import { generateGamerUsername } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function Room() {
   const { id } = useParams();
-  const { socket } = useGlobalStore();
+  const { socket, setSocket } = useGlobalStore();
   const { auth } = useAuthStore();
   const { players, adminUserConnectionId, selectedQuestion, roomState } = useRoomStore();
 
@@ -68,6 +71,17 @@ export default function Room() {
               )}
             </AnimatePresence>
 
+
+            <div className="absolute top-2 left-2 z-[90]">
+              <Link 
+              onClick={() => {
+                setSocket(null);
+              }}
+              className="flex gap-2 items-center bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-white p-2 rounded-lg" href="/">
+                <ArrowLeft />
+                <span>Go back</span>
+              </Link>
+            </div>
 
             <div>
               {
