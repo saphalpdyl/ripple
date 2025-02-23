@@ -7,11 +7,13 @@ export default function Card({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   me,
+  onClick,
 }: {
   position?: [number, number, number];
   rotation?: [number, number, number];
   scale?: [number, number, number];
   me: boolean;
+  onClick?: () => void;
 }) {
   const [ hovering, setHovering ] = useState(false);
   
@@ -44,6 +46,7 @@ export default function Card({
       onClick={(e) => {
         e.stopPropagation();
         console.log('click');
+        if ( onClick ) onClick();
       }}
       ref={meshRef}
       onPointerOver={onPointerHover}

@@ -1,6 +1,9 @@
 import { useMemo } from 'react';
 import Card from "@/components/three/card";
 import { ClientPlayerData } from '@repo/types';
+import { useRoomStore } from '@/store/players';
+import { WebSocketEvents } from '@repo/common/constants';
+import useGlobalStore from '@/store/global';
 
 export default function Deck({
   position,
@@ -13,9 +16,11 @@ export default function Deck({
   me?: boolean;
   player: ClientPlayerData,
 }) {
+  const { socket } = useGlobalStore();
+  
   // Calculate card positions and rotations for a fan effect
   const cardProps = useMemo(() => {
-    return Array.from({ length: player.deck?.cards.length ?? 0 }).map((_, i) => {
+    return player.deck?.cards.map((card, i) => {
       // Calculate the angle for the fan spread (60 degrees total spread)
       const fanAngle = (90 / player.deck!.cards.length) * i - 45;
       
@@ -28,14 +33,15 @@ export default function Deck({
       
       return {
         position: [xOffset, 0, i * 0.001 + zOffset] as [number, number, number],
-        rotation: [0, -angleRad, 0] as [number, number, number]
+        rotation: [0, -angleRad, 0] as [number, number, number],
+        card,
       };
     });
   }, [player.deck?.cards.length]);
 
   return (
     <group position={position} rotation={rotation}>
-      {cardProps.map((props, i) => (
+      {cardProps?.map((props, i) => (
         <Card
           // onPointerHover={() => console.log('hover')}
           // onPointerOut={() => console.log('unhover')}
@@ -43,6 +49,15 @@ export default function Deck({
           position={props.position}
           rotation={props.rotation}
           me={me}
+
+          onClick={() => {
+            if ( !socket ) return;
+
+            socket.emit(WebSocketEvents.PLAYER_QUESTION_SELECT, {
+              question: props.card,
+              playerId: socket.id,
+            });
+          }}
         />
       ))}
     </group>

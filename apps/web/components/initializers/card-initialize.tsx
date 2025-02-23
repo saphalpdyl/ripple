@@ -9,13 +9,16 @@ export default function CardInitialize({
 }: { children: React.ReactNode}) {
 
   const { socket } = useGlobalStore();
-  const { setPlayers } = useRoomStore();
+  const { setPlayers, selectedQuestion,  } = useRoomStore();
 
   useEffect(() => {
     if ( !socket ) return;
 
     socket.on(WebSocketEvents.USER_LEFT, ({ userId }) => {
-      
+      const prevPlayers = useRoomStore.getState().players;
+      const newPlayers = { ...prevPlayers };
+      delete newPlayers[userId];
+      setPlayers(newPlayers);
     })
     
     socket.on(WebSocketEvents.PLAYER_UPDATE, ({ players }) => {
@@ -32,7 +35,15 @@ export default function CardInitialize({
         remainingCards,
         adminUserConnectionId: admin,
       });
-    })
+    });
+
+    socket.on(WebSocketEvents.PLAYER_QUESTION_SELECT, ({ question, player }) => {
+      question.player = player;
+      
+      useRoomStore.setState({
+        selectedQuestion: question,
+      });
+    });
 
   }, [socket]);
   

@@ -5,433 +5,392 @@ export const mockShuffleData: {
     "questions": Card[],
   }
 } = {
-  "questions": {
-    "questions": [
-      {
-        "question": "What is tgfgche primary role of a programmer?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "Desiging computer hardware"
-          },
-          {
+    "questions": {
+      "questions": [
+        {
+          "uuid": "8e24add8-246a-49c0-8df3-272b2b2f5556",
+          "question": "What is a programmer?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "Someone who repairs computers"
+            },
+            {
+              "Id": 2,
+              "value": "Someone who writes programs"
+            },
+            {
+              "Id": 3,
+              "value": "Someone who designs computer hardware"
+            },
+            {
+              "Id": 4,
+              "value": "Someone who uses software"
+            }
+          ],
+          "answer": {
             "Id": 2,
-            "value": "Writing instructions for computers"
+            "value": "Someone who writes programs"
           },
-          {
-            "Id": 3,
-            "value": "Maintaining computer networks"
-          },
-          {
-            "Id": 4,
-            "value": "Developing mobile applications only"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "Writing instructions for computers"
-        }
-      },
-      {
-        "question": "Which of the following is a component of the CPU?",
-        "options": [
-          {
+          "difficulty": 2
+        },
+        {
+          "uuid": "0d230710-005e-4d6e-b3db-c7e719a1df2d",
+          "question": "What does the CPU stand for?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "Central Processing Unit"
+            },
+            {
+              "Id": 2,
+              "value": "Central Programming Unit"
+            },
+            {
+              "Id": 3,
+              "value": "Computer Processing Unit"
+            },
+            {
+              "Id": 4,
+              "value": "Core Programming Unit"
+            }
+          ],
+          "answer": {
             "Id": 1,
-            "value": "Hard disk drive"
+            "value": "Central Processing Unit"
           },
-          {
+          "difficulty": 3
+        },
+        {
+          "uuid": "586f31c2-b977-4142-b42b-5cc0660ebbb2",
+          "question": "Which component is non-volatile?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "Main Memory"
+            },
+            {
+              "Id": 2,
+              "value": "Secondary Storage"
+            },
+            {
+              "Id": 3,
+              "value": "CPU"
+            },
+            {
+              "Id": 4,
+              "value": "RAM"
+            }
+          ],
+          "answer": {
             "Id": 2,
-            "value": "Arithmetic & Logic Unit"
+            "value": "Secondary Storage"
           },
-          {
+          "difficulty": 4
+        },
+        {
+          "uuid": "3296ebf2-2834-4f8d-b993-c418fb93022a",
+          "question": "What is an example of an output device?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "Keyboard"
+            },
+            {
+              "Id": 2,
+              "value": "Scanner"
+            },
+            {
+              "Id": 3,
+              "value": "Monitor"
+            },
+            {
+              "Id": 4,
+              "value": "Mouse"
+            }
+          ],
+          "answer": {
             "Id": 3,
-            "value": "Motherboard"
-          },
-          {
-            "Id": 4,
-            "value": "Graphic Card"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "Arithmetic & Logic Unit"
-        }
-      },
-      {
-        "question": "What is a characteristic of RAM (Main Memory)?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "Non-volatile storage"
-          },
-          {
-            "Id": 2,
-            "value": "Volatile storage"
-          },
-          {
-            "Id": 3,
-            "value": "Permanent data storage"
-          },
-          {
-            "Id": 4,
-            "value": "Slow read/write speed"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "Volatile storage"
-        }
-      },
-      {
-        "question": "What is a function of the Control Unit in a CPU?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "Perform arithmetic calculations"
-          },
-          {
-            "Id": 2,
-            "value": "Coordinate computer activities"
-          },
-          {
-            "Id": 3,
-            "value": "Store program instructions"
-          },
-          {
-            "Id": 4,
-            "value": "Handle data input/output"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "Coordinate computer activities"
-        }
-      },
-      {
-        "question": "Which of the following is an example of a high-level programming language?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "Binary code"
-          },
-          {
-            "Id": 2,
-            "value": "Java"
-          },
-          {
-            "Id": 3,
-            "value": "Assembly language"
-          },
-          {
-            "Id": 4,
-            "value": "Machine language"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "Java"
-        }
-      },
-      {
-        "question": "What is the main difference between RAM and secondary storage?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "RAM is non-volatile, while secondary storage is volatile"
-          },
-          {
-            "Id": 2,
-            "value": "RAM is volatile, while secondary storage is non-volatile"
-          },
-          {
-            "Id": 3,
-            "value": "RAM is slower, while secondary storage is faster"
-          },
-          {
-            "Id": 4,
-            "value": "RAM is cheaper, while secondary storage is expensive"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "RAM is volatile, while secondary storage is non-volatile"
-        }
-      },
-      {
-        "question": "Which of the following is a type of software?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "Keyboard"
-          },
-          {
-            "Id": 2,
-            "value": "Microsoft Word"
-          },
-          {
-            "Id": 3,
-            "value": "CPU"
-          },
-          {
-            "Id": 4,
             "value": "Monitor"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "Microsoft Word"
-        }
-      },
-      {
-        "question": "What happens when you compile a high-level language program?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "It converts the program into machine instructions"
           },
-          {
+          "difficulty": 3
+        },
+        {
+          "uuid": "908d8263-d835-48ae-8d49-903aa963a0a0",
+          "question": "Which of the following is system software?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "Microsoft Word"
+            },
+            {
+              "Id": 2,
+              "value": "Operating System"
+            },
+            {
+              "Id": 3,
+              "value": "Excel"
+            },
+            {
+              "Id": 4,
+              "value": "Photoshop"
+            }
+          ],
+          "answer": {
             "Id": 2,
-            "value": "It connects hardware-specific code to the program"
+            "value": "Operating System"
           },
-          {
-            "Id": 3,
-            "value": "It edits the source code for better performance"
-          },
-          {
-            "Id": 4,
-            "value": "It runs the program immediately"
-          }
-        ],
-        "answer": {
-          "Id": 1,
-          "value": "It converts the program into machine instructions"
-        }
-      },
-      {
-        "question": "What tools are typically included in an Integrated Development Environment (IDE)?",
-        "options": [
-          {
+          "difficulty": 3
+        },
+        {
+          "uuid": "15c18547-98b8-40f5-ba4d-d499b5552716",
+          "question": "What does RAM stand for?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "Random Access Memory"
+            },
+            {
+              "Id": 2,
+              "value": "Read-Only Memory"
+            },
+            {
+              "Id": 3,
+              "value": "Randomly Allocated Memory"
+            },
+            {
+              "Id": 4,
+              "value": "Remote Access Memory"
+            }
+          ],
+          "answer": {
             "Id": 1,
-            "value": "Text editor, compiler, debugger"
+            "value": "Random Access Memory"
           },
-          {
+          "difficulty": 2
+        },
+        {
+          "uuid": "3552aeb5-e676-4ddc-a7fa-e5b57160e331",
+          "question": "Which step converts high-level code to machine code?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "Preprocessor"
+            },
+            {
+              "Id": 2,
+              "value": "Compiler"
+            },
+            {
+              "Id": 3,
+              "value": "Linker"
+            },
+            {
+              "Id": 4,
+              "value": "Debugger"
+            }
+          ],
+          "answer": {
             "Id": 2,
-            "value": "Graphics design tools"
+            "value": "Compiler"
           },
-          {
-            "Id": 3,
-            "value": "Network security tools"
-          },
-          {
-            "Id": 4,
-            "value": "Database management tools"
-          }
-        ],
-        "answer": {
-          "Id": 1,
-          "value": "Text editor, compiler, debugger"
-        }
-      },
-      {
-        "question": "Which of the following best describes a variable in programming?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "A function that performs calculations"
-          },
-          {
+          "difficulty": 4
+        },
+        {
+          "uuid": "e2fdc205-eaa6-4576-b09c-8c23bc4b8674",
+          "question": "Which of the following is a high-level programming language?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "Machine Language"
+            },
+            {
+              "Id": 2,
+              "value": "C++"
+            },
+            {
+              "Id": 3,
+              "value": "Assembly"
+            },
+            {
+              "Id": 4,
+              "value": "Binary"
+            }
+          ],
+          "answer": {
             "Id": 2,
-            "value": "A named storage location in memory"
-          },
-          {
-            "Id": 3,
-            "value": "A type of programming language"
-          },
-          {
-            "Id": 4,
-            "value": "A reserved keyword in C++"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "A named storage location in memory"
-        }
-      },
-      {
-        "question": "What does the acronym 'HTTP' stand for?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "HyperText Transmission Protocol"
-          },
-          {
-            "Id": 2,
-            "value": "HyperText Transfer Protocol"
-          },
-          {
-            "Id": 3,
-            "value": "HyperText Technical Protocol"
-          },
-          {
-            "Id": 4,
-            "value": "Hyper Transfer Text Protocol"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "HyperText Transfer Protocol"
-        }
-      },
-      {
-        "question": "Which of the following is NOT an operating system?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "Windows"
-          },
-          {
-            "Id": 2,
-            "value": "Linux"
-          },
-          {
-            "Id": 3,
-            "value": "MacOS"
-          },
-          {
-            "Id": 4,
-            "value": "Chrome"
-          }
-        ],
-        "answer": {
-          "Id": 4,
-          "value": "Chrome"
-        }
-      },
-      {
-        "question": "Which of the following is a type of database model?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "Relational"
-          },
-          {
-            "Id": 2,
-            "value": "Hierarchical"
-          },
-          {
-            "Id": 3,
-            "value": "Network"
-          },
-          {
-            "Id": 4,
-            "value": "All of the above"
-          }
-        ],
-        "answer": {
-          "Id": 4,
-          "value": "All of the above"
-        }
-      },
-      {
-        "question": "Which programming language is known as the 'mother of all languages'?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "C"
-          },
-          {
-            "Id": 2,
-            "value": "Java"
-          },
-          {
-            "Id": 3,
-            "value": "Fortran"
-          },
-          {
-            "Id": 4,
-            "value": "Assembly"
-          }
-        ],
-        "answer": {
-          "Id": 1,
-          "value": "C"
-        }
-      },
-      {
-        "question": "Which of the following is an example of an interpreted programming language?",
-        "options": [
-          {
-            "Id": 1,
             "value": "C++"
           },
-          {
+          "difficulty": 3
+        },
+        {
+          "uuid": "610cd8dd-8ec0-4bed-8471-57232e68b286",
+          "question": "What is a variable in programming?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "A keyword"
+            },
+            {
+              "Id": 2,
+              "value": "A named storage location"
+            },
+            {
+              "Id": 3,
+              "value": "An operator"
+            },
+            {
+              "Id": 4,
+              "value": "A punctuation mark"
+            }
+          ],
+          "answer": {
             "Id": 2,
-            "value": "Python"
+            "value": "A named storage location"
           },
-          {
-            "Id": 3,
-            "value": "Java"
-          },
-          {
-            "Id": 4,
-            "value": "C"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "Python"
-        }
-      },
-      {
-        "question": "What is the purpose of a 'Stack' in computer programming?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "Store data in a linear order"
-          },
-          {
+          "difficulty": 3
+        },
+        {
+          "uuid": "9a3fcd59-7683-4d22-9589-35ecaf83bac9",
+          "question": "What is the first step in the programming process?",
+          "options": [
+            {
+              "Id": 1,
+              "value": "Processing"
+            },
+            {
+              "Id": 2,
+              "value": "Input"
+            },
+            {
+              "Id": 3,
+              "value": "Output"
+            },
+            {
+              "Id": 4,
+              "value": "Compilation"
+            }
+          ],
+          "answer": {
             "Id": 2,
-            "value": "Store data in a last-in, first-out (LIFO) manner"
+            "value": "Input"
           },
-          {
-            "Id": 3,
-            "value": "Store data in a first-in, first-out (FIFO) manner"
-          },
-          {
-            "Id": 4,
-            "value": "Store data permanently"
-          }
-        ],
-        "answer": {
-          "Id": 2,
-          "value": "Store data in a last-in, first-out (LIFO) manner"
+          "difficulty": 2
         }
-      },
-      {
-        "question": "Which of the following is the primary function of an Operating System?",
-        "options": [
-          {
-            "Id": 1,
-            "value": "Manage hardware resources"
-          },
-          {
-            "Id": 2,
-            "value": "Manage network security"
-          },
-          {
-            "Id": 3,
-            "value": "Develop software applications"
-          },
-          {
-            "Id": 4,
-            "value": "Monitor user activity"
-          }
-        ],
-        "answer": {
-          "Id": 1,
-          "value": "Manage hardware resources"
+      ]
+    },
+    "whquestions": {
+      "questions": [
+        {
+          "uuid": "940dc9dd-81c3-4744-b1a6-7aef9392af33",
+          "question": "What is a program?",
+          "answers": [
+            {
+              "id": 1,
+              "value": "A set of instructions that the computer follows to perform a task"
+            },
+            {
+              "id": 2,
+              "value": "Data stored in secondary memory"
+            },
+            {
+              "id": 3,
+              "value": "A hardware component like the CPU"
+            },
+            {
+              "id": 4,
+              "value": "A type of software only used for gaming"
+            }
+          ]
+        },
+        {
+          "uuid": "390987f5-a131-431d-bb26-86aa2165417b",
+          "question": "Why is programming important?",
+          "answers": [
+            {
+              "id": 1,
+              "value": "Without programmers, no programs; without programs, a computer cannot do anything"
+            },
+            {
+              "id": 2,
+              "value": "It allows the computer to store data permanently"
+            },
+            {
+              "id": 3,
+              "value": "It helps in creating input devices"
+            },
+            {
+              "id": 4,
+              "value": "It is only important for gaming applications"
+            }
+          ]
+        },
+        {
+          "uuid": "01caf81a-4744-4e97-bd3c-d1f6c99325aa",
+          "question": "What are the main categories of hardware components?",
+          "answers": [
+            {
+              "id": 1,
+              "value": "Central Processing Unit (CPU), Main Memory, Secondary Memory/Storage, Input Devices, Output Devices"
+            },
+            {
+              "id": 2,
+              "value": "Keyboard, Mouse, touchscreen"
+            },
+            {
+              "id": 3,
+              "value": "Operating Systems and Applications"
+            },
+            {
+              "id": 4,
+              "value": "Gaming Consoles and Peripherals"
+            }
+          ]
+        },
+        {
+          "uuid": "a660bb8a-03af-4ad2-84a2-ec49d8afb05f",
+          "question": "How is a high-level program converted into an executable file?",
+          "answers": [
+            {
+              "id": 1,
+              "value": "It is processed by a preprocessor, compiler, and linker"
+            },
+            {
+              "id": 2,
+              "value": "It is directly executed by the CPU"
+            },
+            {
+              "id": 3,
+              "value": "It is stored in secondary memory"
+            },
+            {
+              "id": 4,
+              "value": "It is converted into machine language manually by the programmer"
+            }
+          ]
+        },
+        {
+          "uuid": "dd908239-8d65-4043-9788-1e1db3be8386",
+          "question": "What is the difference between hardware and software?",
+          "answers": [
+            {
+              "id": 1,
+              "value": "Hardware is physical components, while software is programs that run on the computer"
+            },
+            {
+              "id": 2,
+              "value": "Hardware is used for input, while software is used for output"
+            },
+            {
+              "id": 3,
+              "value": "Hardware is non-volatile, while software is volatile"
+            },
+            {
+              "id": 4,
+              "value": "Hardware is used for gaming, while software is used for programming"
+            }
+          ]
         }
-      }
-    ]
+      ]
+    }
   }
-}
