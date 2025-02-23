@@ -38,25 +38,6 @@ export default function Room() {
       <CardInitialize>
         <ConnectSocket>
           
-          {
-            ((Object.keys(players).length) >= 2) && (socket!.id === adminUserConnectionId) && (
-              <div 
-                onClick={() => {
-                  socket!.emit(WebSocketEvents.GAME_START, {});
-                }}
-                className="absolute h-12 w-36 top-12 left-3 border rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-100 z-[90]">
-                  Get ready
-              </div>
-            )
-          }
-            <div 
-              onClick={() => {
-                socket!.emit(WebSocketEvents.GAME_END, {});
-              }}
-              className="absolute h-12 w-36 top-36 left-3 border rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-100 z-[90]">
-                End game
-            </div>
-
             <AnimatePresence>
               {roomState === "WAITING_FOR_PLAYERS" && (
                 <motion.div 
