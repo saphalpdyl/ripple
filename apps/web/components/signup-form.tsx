@@ -98,11 +98,13 @@ export default function SignupForum({
             </div>
           </form>
           <div className="relative hidden bg-muted md:block">
+            <div className="flex justify-center items-center h-full w-full">
             <img
-              src="https://raw.githubusercontent.com/saphalpdyl/ripple/refs/heads/main/extern/blender/src/img/card.png"
+              src="/ripple_logo.png"
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute object-cover dark:brightness-[0.2] dark:grayscale"
             />
+            </div>
           </div>
         </CardContent>
       </Card>
