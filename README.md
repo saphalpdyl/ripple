@@ -124,37 +124,7 @@ The backend will be accessible at `localhost:8080` by default.
 
 The WebSocket server will be running on a specific port.
 
-## Run Your Own Instance
-
-To run your own instance of Ripple, follow these steps:
-
-### Frontend (`apps/web`)
-
-1.  Navigate to the frontend directory: `cd apps/web`
-2.  Install dependencies: `pnpm install`
-3.  Run the development server: `pnpm dev`
-
-The frontend will be accessible at `localhost:3000` by default.
-
-### Backend (`apps/go`)
-
-1.  Ensure you have Go installed.
-2.  Navigate to the backend directory: `cd apps/go`
-3.  Download dependencies: `go mod download`
-4.  Run the backend: `go run main.go`
-
-The backend will be accessible at `localhost:8080` by default.
-
-### WebSocket Server (`apps/ws`)
-
-1.  Navigate to the WebSocket server directory: `cd apps/ws`
-2.  Install dependencies: `pnpm install`
-3.  Run the server: `pnpm dev`
-
-The WebSocket server will be running on a specific port.
-
-
-Meet the amazing team behind Ripple:
+## Meet the amazing team behind Ripple:
 
 - [Saphal](https://github.com/saphalpdyl) - Frontend & 3D
 - [Sugam(vein05)](https://github.com/vein05) - Backend & AI
