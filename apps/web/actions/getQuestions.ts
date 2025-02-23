@@ -1,30 +1,25 @@
-// just do a get post request to the local server from NEXT_DOCUMENT_SERVER_URL/extrac
+"use server";
 
-export default async function getQuestions(file : any) {
-    var path = "";
-    if (file.display_name.endsWith('.ppt')) {
-        path = "https://ripple-official-506350199040.us-central1.run.app/extractorppt";
-    } else {
-        return [];
-    }
+import axios from "axios";
 
-    console.log("Getting questions...")
-    const response = await fetch(
-       path, 
-        {
-            method: "POST",
+export async function getPPTQuestions() {
+    try {
+        console.log("Sending Request to Extractor PPT")
+        const { data } = await axios.post(
+          "https://ripple-official-506350199040.us-central1.run.app/extractorppt",
+          {
             headers: {
-                "Content-Type": "application/json",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify({}) // Empty object for testing
-
+              'Content-Type': 'application/json',
+            }
+          }
+        )
+        console.log("Response data:", data)
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error:", error.response?.data || error.message)
+        } else {
+          console.error("Error:", error)
         }
-    );
-    console.log('Response status:', response.status);
-    console.log('Response headers:', response.headers);
-
-    const data = await response.json();
-    console.log(data);
-    return data;
+      }
+   
 }
