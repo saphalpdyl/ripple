@@ -9,6 +9,7 @@ import { ClientPlayerData, PlayerData } from "@repo/types";
 import useGlobalStore from "@/store/global";
 import { Suspense, useEffect } from "react";
 import Ground from "@/components/three/ground";
+import { CartoonEffect } from "@/components/three/cartoon-effect";
 
 import { useSpring, animated } from "@react-spring/three"
 

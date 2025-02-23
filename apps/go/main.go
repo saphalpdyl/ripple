@@ -244,7 +244,7 @@ func main() {
 			return
 		}
 
-		defer os.Remove(savedFilePath)
+		// defer os.Remove(savedFilePath)
 
 		// Extract questions from the saved file
 		questions, err := ExtractMCQ(savedFilePath)

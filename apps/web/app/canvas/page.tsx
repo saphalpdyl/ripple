@@ -1,109 +1,155 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import getCourses from "@/actions/courses";
-import getFiles from "@/actions/getFiles";
-import getQuestions from "@/actions/getQuestions";
-
+import { useEffect, useState } from "react"
+import getCourses from "@/actions/courses"
+import getFiles from "@/actions/getFiles"
+import getQuestions from "@/actions/getQuestions"
+import speak from "@/actions/speak"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Loader2, FileText, Book, Volume2 } from "lucide-react"
 
-import {
-    DropdownMenu,
-  } from "@/components/ui/dropdown-menu";
-  
-
-
-// Add type for your course data
 interface Course {
-  // Add your course properties here
-  id: number;
-  name: string;
-  // ... other properties
+  id: number
+  name: string
 }
 
 interface File {
-    // Add your file properties here
-    id: number;
-    display_name: string;
-    url: string;
-    // ... other properties
-    }
+  id: number
+  display_name: string
+  url: string
+}
 
 export default function Courses() {
-    const [courses, setCourses] = useState<Course[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [courseFiles, setCourseFiles] = useState<File[]>([]);
+  const [courses, setCourses] = useState<Course[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [courseFiles, setCourseFiles] = useState<File[]>([])
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
 
-    useEffect(() => {
-        async function fetchCourses() {
-            try {
-                const data = await getCourses();
-                setCourses(data);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to fetch courses');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        fetchCourses();
-    }, []);
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-
-    const handelCourseClick = (course: Course) => {
-        return async () => {
-            try {
-                const files = await getFiles(course.id);
-
-                for (const file of files) {
-                    if (file.display_name.endsWith('.pdf') || file.display_name.endsWith('.ppt')) {
-                        setCourseFiles((prevFiles) => [...prevFiles, file]);
-                    }
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        };
+  useEffect(() => {
+    async function fetchCourses() {
+      try {
+        const data = await getCourses()
+        setCourses(data)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to fetch courses")
+      } finally {
+        setLoading(false)
+      }
     }
 
-    const handelFileClick = (file: File) => {
-        return async () => {
-            var questions = getQuestions(file);
-            console.log(questions);
-        };
-    };
+    fetchCourses()
+  }, [])
 
+  const handleCourseClick = async (course: Course) => {
+    setSelectedCourse(course)
+    setCourseFiles([])
+    try {
+      const files = await getFiles(course.id)
+      setCourseFiles(files.filter((file: { display_name: string }) => file.display_name.endsWith(".pdf") || file.display_name.endsWith(".ppt")))
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
+  const handleFileClick = async (file: File) => {
+    try {
+      const questions = await getQuestions(file)
+      console.log(questions)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
+  const handleSpeak = async () => {
+    await speak("Shut up Saphal. I am a better speaker than you.")
+  }
+
+  if (loading)
     return (
-        <div>
-            <div className="mt-5 flex flex-col gap-2 items-center">
-                {courses.map((course) => (
-                    <div key={course.id}>
-                        <Button onClick={handelCourseClick(course)}>{course.id}: {course.name} </Button>
-                    </div>
-                ))}
-            </div>
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    )
 
-            <div className="pt-2 flex flex-col gap-2 items-center justify-center">
-                <DropdownMenu>
-                    <div className="pl-4 space-y-2 ">
-                        {courseFiles.map((file) => (
-                            <div key={file.id} className="flex items-center space-x-2">
-                                <Button
-                                    onClick={handelFileClick(file)}
-                                    className="text-blue-500 hover:underline"
-                                >
-                                    {file.display_name}
-                                </Button>
-                            </div>
-                        ))}
-                    </div>
-                </DropdownMenu>
-            </div>
-        </div>
-    );
+  if (error)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-red-500">Error</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>{error}</p>
+          </CardContent>
+        </Card>
+      </div>
+    )
+
+  return (
+    <div className="container mx-auto p-4 max-w-4xl">
+      <h1 className="text-3xl font-bold mb-6 text-center">Course Explorer</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Book className="mr-2" />
+              Courses
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-[400px] pr-4">
+              {courses.map((course) => (
+                <Button
+                  key={course.id}
+                  onClick={() => handleCourseClick(course)}
+                  variant={selectedCourse?.id === course.id ? "default" : "outline"}
+                  className="w-full mb-2 justify-start"
+                >
+                  {course.name}
+                </Button>
+              ))}
+            </ScrollArea>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <FileText className="mr-2" />
+              Course Files
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-[400px] pr-4">
+              {courseFiles.length > 0 ? (
+                courseFiles.map((file) => (
+                  <Button
+                    key={file.id}
+                    onClick={() => handleFileClick(file)}
+                    variant="outline"
+                    className="w-full mb-2 justify-start"
+                  >
+                    {file.display_name}
+                  </Button>
+                ))
+              ) : (
+                <p className="text-muted-foreground text-center">
+                  {selectedCourse ? "No files available" : "Select a course to view files"}
+                </p>
+              )}
+            </ScrollArea>
+          </CardContent>
+        </Card>
+      </div>
+      <div className="mt-6 text-center">
+        <Button onClick={handleSpeak} className="inline-flex items-center">
+          <Volume2 className="mr-2" />
+          Click to hear a greeting
+        </Button>
+      </div>
+    </div>
+  )
 }
+

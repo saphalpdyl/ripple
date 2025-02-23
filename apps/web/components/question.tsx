@@ -1,32 +1,77 @@
+import React, { useState, useEffect } from 'react';
 import { Card, PlayerData } from "@repo/types";
-import { useState } from "react";
+import { Card as UICard, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import DottedBackground from '@/components/dotted-background';
 
 export default function Question({
   question
 }: {
-  question: Card & { question: PlayerData }
+  question: Card & { player: PlayerData }
 }) {
-  const [ whAnswer, setWHAnswer] = useState("");
-  const [ option, setOption ] = useState<number | null>(null);
-  
+  const [whAnswer, setWHAnswer] = useState("");
+  const [option, setOption] = useState<number | null>(null);
+
+  const handleWhAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newAnswer = e.target.value;
+    setWHAnswer(newAnswer);
+    
+  };
+
+  const handleOptionChange = (value: string) => {
+    const optionNumber = parseInt(value);
+    setOption(optionNumber);
+    
+  };
+
   return (
-    <div className="flex flex-col items-center">
-      <div className="text-xl font-bold">{question.question}</div>
-      <div className="flex flex-col">
-        {
-          question.questionType === "MCQ" && question.options?.map((option) => (
-            <div key={option.Id} className="flex items-center">
-              <input type="radio" name="question" id={option.Id.toString()} />
-              <label htmlFor={option.Id.toString()}>{option.value}</label>
-            </div>
-          ))
-        }
-        {
-          question.questionType === "WH" && <textarea>
+    <UICard className="w-full max-w-2xl mx-auto">
+      <CardContent className="pt-6">
+        <DottedBackground>
+          <div className="flex flex-col space-y-6">
+            <h2 className="text-xl font-bold text-center">
+              {question.question}
+            </h2>
             
-          </textarea>
-        }
-      </div>
-    </div>
+            <div className="w-full">
+              {question.questionType === "MCQ" && (
+                <RadioGroup
+                  value={option?.toString()}
+                  onValueChange={handleOptionChange}
+                  className="space-y-4"
+                >
+                  {question.options?.map((opt) => (
+                    <div key={opt.Id} className="flex items-center space-x-3">
+                      <RadioGroupItem
+                        value={opt.Id.toString()}
+                        id={opt.Id.toString()}
+                      />
+                      <Label
+                        htmlFor={opt.Id.toString()}
+                        className="text-base cursor-pointer"
+                      >
+                        {opt.value}
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              )}
+              
+              {question.questionType === "WH" && (
+                <Textarea
+                  value={whAnswer}
+                  onChange={handleWhAnswerChange}
+                  placeholder="Type your answer here..."
+                  className="min-h-32"
+                />
+              )}
+            </div>
+          </div>
+
+        </DottedBackground>
+      </CardContent>
+    </UICard>
   );
 }
