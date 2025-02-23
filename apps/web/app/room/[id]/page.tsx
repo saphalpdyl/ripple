@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 export default function Room() {
   const { id } = useParams();
   const { socket } = useGlobalStore();
-  const { players, adminUserConnectionId } = useRoomStore();
+  const { players, adminUserConnectionId, selectedQuestion } = useRoomStore();
 
   return <div className="h-screen w-screen">
     <SocketConnection room={id as string || ""}>
@@ -36,6 +36,14 @@ export default function Room() {
               }}
               className="absolute h-12 w-36 top-36 left-3 border rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-100 z-[90]">
                 End game
+            </div>
+
+            <div>
+              {
+                selectedQuestion && (
+                  <div> Question Selected.</div>
+                )
+              }
             </div>
           <Game />
         </ConnectSocket>

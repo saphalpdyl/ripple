@@ -15,4 +15,7 @@ export const WebSocketEvents = {
   PLAYER_UPDATE: "player-update",
   MISC_UPDATE: "misc-update",
   GAME_STATE: "game-state",
+
+  PLAYER_QUESTION_SELECT: "player-question-select",
+  PLAYER_QUESTION_ANSWER: "player-question-answer",
 }

@@ -9,6 +9,21 @@ interface RoomState {
   remainingCards: Card[];
   userMaxIndex: number;
   adminUserConnectionId: string | null;
+
+  selectedQuestion: Card & { player: PlayerData; } | null;
+  setSelectedQuestion: (question: Card & { player: PlayerData; }) => void;
+  selectedAnswer: {
+    question: Card;
+    answerId?: number; // Either answerId or answerWH
+    answerWH?: string;
+    player: PlayerData;
+  } | null,
+  setSelectedAnswer: (answer: {
+    player: PlayerData;
+    question: Card;
+    answerId?: number;
+    answerWH?: string;
+  }) => void;
 }
 
 export const useRoomStore = create<RoomState>((set) => ({
@@ -19,4 +34,9 @@ export const useRoomStore = create<RoomState>((set) => ({
   remainingCards: [],
   userMaxIndex: 0,
   adminUserConnectionId: null,
+
+  selectedQuestion: null,
+  setSelectedQuestion: (question) => set({ selectedQuestion: question }),
+  selectedAnswer: null,
+  setSelectedAnswer: (answer) => set({ selectedAnswer: answer }),
 }));

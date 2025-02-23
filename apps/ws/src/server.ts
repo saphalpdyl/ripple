@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { Card, ClientPlayerData, PlayerData, PlayerDeckData, PlayerMiscData } from "@repo/types";
 import { mockShuffleData } from "./mock-data";
 import { WebSocketEvents } from "@repo/common/constants";
+import { convertToTypedDeck } from "./utils";
 
 export default class Server extends BasePartyServer implements Party.Server {
   private users = new Map<string, PlayerData>();
@@ -49,10 +50,7 @@ export default class Server extends BasePartyServer implements Party.Server {
 
     this.on(WebSocketEvents.GAME_START, () => {
       // Create a copy of the full deck
-      const deck = mockShuffleData.questions.questions.map((question, index) => ({
-        ...question,
-        cardId: uuidv4(),
-      }));
+      const deck = convertToTypedDeck(mockShuffleData);
       
       // Calculate how many cards each player should get
       const playerCount = this.users.size;
@@ -73,6 +71,19 @@ export default class Server extends BasePartyServer implements Party.Server {
       this.gameState = "PLAYING";
       this.sendUpdatedPlayerData();
     });
+
+  this.on(WebSocketEvents.PLAYER_QUESTION_SELECT, ({ question, playerId }) => {
+    if ( this.gameState !== "PLAYING" ) return;
+    if ( this.userMiscData[playerId]?.selected ) return;
+
+    const player = this.users.get(playerId);
+    if ( !player ) return;
+
+    this.emitAll(WebSocketEvents.PLAYER_QUESTION_SELECT, {
+      question,
+      player,
+    });
+  });
 
     this.on(WebSocketEvents.GAME_END, () => {
       this.gameState = "END";
