@@ -7,31 +7,47 @@ import ShuffleDeck from "@/components/three/shuffle_deck";
 import { useRoomStore } from "@/store/players";
 import { PlayerData } from "@repo/types";
 import useGlobalStore from "@/store/global";
-
 function getCircularOrder(players: PlayerData[], currentId: string): (PlayerData | null)[] {
   // Validate input
   if (!players.length || !players.some(p => p.connectionId === currentId)) {
     throw new Error('Invalid input: current ID must exist in players');
   }
 
-  const playerCount = 4;
+  // Remove duplicates by connectionId
+  const uniquePlayers = players.filter((player, index) => {
+    return players.findIndex(p => p.connectionId === player.connectionId) === index;
+  });
+
+  const playerCount = 4; // Total positions in the game
   const result: (PlayerData | null)[] = [];
   
-  // Find the starting index (position after currentId)
-  const startIdx = players.findIndex(p => p.connectionId === currentId);
+  // Find the current player's index
+  const currentPlayerIndex = uniquePlayers.findIndex(p => p.connectionId === currentId);
   
-  // Calculate how many positions we need to fill
-  const positionsToFill = playerCount - 1; // Excluding the current position
+  // Calculate positions needed after current player
+  const positionsToFill = playerCount - 1; // Excluding current player's position
   
-  // Fill the positions after currentId
+  // Fill positions after current player
   for (let i = 0; i < positionsToFill; i++) {
-    const nextIdx = (startIdx + 1 + i) % players.length;
-    result.push(players[nextIdx] || null);
+    const nextIndex = (currentPlayerIndex + 1 + i) % uniquePlayers.length;
+    
+    // Only add the player if they're different from the current player
+    const nextPlayer = uniquePlayers[nextIndex];
+    if (nextPlayer && nextPlayer.connectionId !== currentId) {
+      result.push(nextPlayer);
+    } else {
+      result.push(null);
+    }
   }
   
-  // Fill remaining positions with null if we don't have enough participants
+  // Ensure we have exactly positionsToFill elements
   while (result.length < positionsToFill) {
     result.push(null);
+  }
+  
+  // Trim if we somehow got too many positions
+  if (result.length > positionsToFill) {
+    result.length = positionsToFill;
   }
   
   return result;
