@@ -107,6 +107,28 @@ export default function Page() {
                   <Button className="">Start session</Button>
                 </div>
               </Link>
+          <Link href={`/room/${Math.random().toFixed(16).slice(2)}`} className="flex items-center border p-2 gap-4 rounded-lg">
+                <div className="w-3 h-3 bg-red-500 rounded-full flex flex-col">
+                </div>
+                <div className="flex flex-col items-start">
+                  <p>Quantum Computing </p>
+                  <p className="text-xs text-gray-700">0/6 questions correct | Practice recommended</p>
+                </div>
+                <div className="flex-1 flex justify-end">
+                  <Button className="">Start session</Button>
+                </div>
+              </Link>
+          <Link href={`/room/${Math.random().toFixed(16).slice(2)}`} className="flex items-center border p-2 gap-4 rounded-lg">
+                <div className="w-3 h-3 bg-red-500 rounded-full flex flex-col">
+                </div>
+                <div className="flex flex-col items-start">
+                  <p>MAT 101</p>
+                  <p className="text-xs text-gray-700">11/12 questions correct | You're good to go</p>
+                </div>
+                <div className="flex-1 flex justify-end">
+                  <Button className="">Start session</Button>
+                </div>
+              </Link>
         </section>
         </div>
 
