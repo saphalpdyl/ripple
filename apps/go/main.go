@@ -1,14 +1,22 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"mime/multipart"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
+
+type PPTRequest struct {
+	URL  string                `json:"url" form:"url"`
+	File *multipart.FileHeader `form:"file"`
+}
 
 func main() {
 	// initiate a gin server
@@ -50,6 +58,7 @@ func main() {
 		savedFilePath := filepath.Join(uploadDir, file.Filename)
 		err = c.SaveUploadedFile(file, savedFilePath)
 		defer os.Remove(savedFilePath)
+
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save uploaded file"})
 			return
@@ -178,37 +187,63 @@ func main() {
 
 	// add a ppt endpoint too that converts ppt to pdf and then calls the extractquestions function
 	r.POST("/extractorppt", func(c *gin.Context) {
-		// Retrieve the file from the form data
-		file, err := c.FormFile("file")
-		if err != nil {
+		var request PPTRequest
+		if err := c.ShouldBind(&request); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-
-		// Open the uploaded file
-		uploadedFile, err := file.Open()
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to open file"})
-			return
-		}
-		defer uploadedFile.Close()
-
 		uploadDir := "./uploads"
-
-		// Create the upload directory if it doesn't exist
 		if _, err := os.Stat(uploadDir); os.IsNotExist(err) {
 			os.Mkdir(uploadDir, os.ModePerm)
 		}
 
-		// Save the uploaded file directly
-		savedFilePath := filepath.Join(uploadDir, file.Filename)
-		err = c.SaveUploadedFile(file, savedFilePath)
-		defer os.Remove(savedFilePath)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save uploaded file"})
+		var savedFilePath string
+		if request.URL != "" {
+			filename := uuid.New().String() + ".ppt"
+			savedFilePath = filepath.Join(uploadDir, filename)
+
+			// Create curl command
+			cmd := exec.Command("curl", "-L", "-o", savedFilePath, request.URL)
+
+			// Capture both stdout and stderr
+			var stdout, stderr bytes.Buffer
+			cmd.Stdout = &stdout
+			cmd.Stderr = &stderr
+
+			// Execute the command
+			err := cmd.Run()
+			if err != nil {
+				errorMsg := stderr.String()
+				if errorMsg == "" {
+					errorMsg = err.Error()
+				}
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to download file: " + errorMsg})
+				return
+			}
+
+			// Verify file was downloaded
+			if _, err := os.Stat(savedFilePath); os.IsNotExist(err) {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "File download failed"})
+				return
+			}
+
+		} else if request.File != nil {
+			// Handle file upload
+			filename := uuid.New().String() + filepath.Ext(request.File.Filename)
+			savedFilePath = filepath.Join(uploadDir, filename)
+
+			if err := c.SaveUploadedFile(request.File, savedFilePath); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save uploaded file: " + err.Error()})
+				return
+			}
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Either URL or File is required"})
 			return
 		}
 
+		defer os.Remove(savedFilePath)
+
+		// Extract questions from the saved file
 		questions, err := ExtractMCQ(savedFilePath)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

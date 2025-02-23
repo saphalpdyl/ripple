@@ -72,7 +72,7 @@ func ExtractMCQ(path string) (Questions, error) {
 		if err != nil {
 			return Questions{}, fmt.Errorf("failed to extract text from PDF: %w", err)
 		}
-	case ".ppt":
+	case ".ppt", ".pptx":
 		text, err = utils.ExtractTextFromPPT(path)
 
 	default:
