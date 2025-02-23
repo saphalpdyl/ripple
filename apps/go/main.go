@@ -291,9 +291,8 @@ func main() {
 	})
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{"vercel.app", "http://localhost:3000"},
 		AllowMethods:     []string{"POST", "GET"},
-		AllowHeaders:     []string{"*"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: false,
 		AllowOriginFunc: func(origin string) bool {
