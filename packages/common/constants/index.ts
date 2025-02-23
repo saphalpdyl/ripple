@@ -11,6 +11,7 @@ export const WebSocketEvents = {
   USER_LEFT: "user-left",
 
   GAME_START: "game-start",
+  GAME_END: "game-end",
   PLAYER_UPDATE: "player-update",
   MISC_UPDATE: "misc-update",
   GAME_STATE: "game-state",

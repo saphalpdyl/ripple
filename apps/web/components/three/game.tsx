@@ -54,6 +54,10 @@ export default function Game() {
     position: [0, 100, 0],
     rotation: [Math.PI/2, 0 , 0],
     fov: 100,
+    config: {
+      mass: 2,
+      tension: 70,
+    }
   }));
 
   useEffect(() => {
@@ -62,6 +66,14 @@ export default function Game() {
         position: [0, 3, 4],
         rotation: [-Math.PI/4, 0, 0],
         fov: 85,
+      });
+    }
+
+    if ( roomState === "END" ) {
+      api.start({
+        position: [6, 2, 4],
+        rotation: [-Math.PI / 1.2, Math.PI / 1.4 , Math.PI / 1.1],
+        fov: 100,
       });
     }
   }, [roomState]);

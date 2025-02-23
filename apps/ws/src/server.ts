@@ -73,6 +73,11 @@ export default class Server extends BasePartyServer implements Party.Server {
       this.gameState = "PLAYING";
       this.sendUpdatedPlayerData();
     });
+
+    this.on(WebSocketEvents.GAME_END, () => {
+      this.gameState = "END";
+      this.sendUpdatedPlayerData();
+    });
   }
   
   onConnect(connection: Party.Connection, ctx: Party.ConnectionContext): void | Promise<void> {

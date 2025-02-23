@@ -28,7 +28,15 @@ export default function Room() {
                   Get ready
               </div>
             )
+
           }
+            <div 
+              onClick={() => {
+                socket!.emit(WebSocketEvents.GAME_END, {});
+              }}
+              className="absolute h-12 w-36 top-36 left-3 border rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-100 z-[90]">
+                End game
+            </div>
           <Game />
         </ConnectSocket>
       </CardInitialize>
