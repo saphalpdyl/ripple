@@ -17,6 +17,7 @@ import { generateGamerUsername } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import CopyToClipboard from "@/components/copy-to-clipboard";
 
 export default function Room() {
   const { id } = useParams();
@@ -67,6 +68,16 @@ export default function Room() {
                   >
                     Waiting for the other player to join...
                   </motion.p>
+
+                  <hr />
+                  <motion.div 
+                    className="text-gray-600 text-xl font-light z-[90]"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    <CopyToClipboard link={window.location.toString()} />
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>

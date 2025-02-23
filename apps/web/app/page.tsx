@@ -94,7 +94,7 @@ export default function Page() {
               </Link>
           </div>
         </section>
-        <section className="flex-1 bg-white rounded-lg shadow p-6 mb-8">
+        <section className="flex-1 bg-white rounded-lg shadow p-6 mb-8 flex flex-col gap-3">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Self practice</h2>
           <Link href={`/room/${Math.random().toFixed(16).slice(2)}`} className="flex items-center border p-2 gap-4 rounded-lg">
                 <div className="w-3 h-3 bg-red-500 rounded-full flex flex-col">
