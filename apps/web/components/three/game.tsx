@@ -11,6 +11,7 @@ import { Suspense, useEffect } from "react";
 import Ground from "@/components/three/ground";
 
 import { useSpring, animated } from "@react-spring/three"
+import PlayerTurnIdentifier from "@/components/player-turn-identifier";
 
 const AnimatedCamera = animated(PerspectiveCamera);
 
@@ -27,7 +28,7 @@ const PLAYER_POSITION_INDEX_TO_LOC_ROT = {
 
 export default function Game() {
   
-  const { roomState, players, remainingCards } = useRoomStore();
+  const { roomState, players, remainingCards, turn } = useRoomStore();
   const { socket } = useGlobalStore();
   
   
@@ -79,6 +80,15 @@ export default function Game() {
         </div>
       )
     }
+
+    {
+      <div className="absolute top-48 ">
+        <span className="text-3xl pl-2 monospace font-bold">Turn</span>
+        <PlayerTurnIdentifier username={(thisPlayer?.username ?? "JohnDoe") + " (You)"} isPlayerTurn={turn === (thisPlayer?.connectionId ?? "")} />
+        <PlayerTurnIdentifier username={otherPlayer?.username ?? "Draco"} isPlayerTurn={turn === (otherPlayer?.connectionId ?? "")} />
+      </div>
+    }
+    
     <Canvas className="h-full w-full">
 
       {
