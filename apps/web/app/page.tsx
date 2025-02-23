@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image"
 import { Plus, BookOpen, Trophy, Users, BarChart } from "lucide-react"
-import { Stage } from "@react-three/drei"
+import { OrbitControls, Stage } from "@react-three/drei"
+import { Canvas } from "@react-three/fiber";
+import MapLoader from "@/components/three/map-loader";
+import MapDisplayItem from "@/components/three/map-display-item";
 
 export default function Page() {
   return (
@@ -28,18 +33,6 @@ export default function Page() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
-
-        {/* Create Deck Sources */}
-        <section className="bg-white rounded-lg shadow p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Maps</h2>
-          <div className="flex items-center justify-between">
-            <Stage>
-              
-            </Stage>
-          </div>
-        </section>
-
         <section className="bg-white rounded-lg shadow p-6 mb-8">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Create Deck Sources</h2>
           <div className="flex items-center justify-between">
@@ -67,6 +60,17 @@ export default function Page() {
             <ActivityItem title="Created new deck 'React Hooks'" time="1 day ago" />
             <ActivityItem title="Joined 'Web Development' study group" time="3 days ago" />
           </ul>
+        </section>
+
+        <section className="bg-white rounded-lg shadow p-6 mb-8">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Maps</h2>
+          <div className="flex items-center justify-between">
+            <div className="h-64 flex items-center">
+              <MapDisplayItem path="/ground_plains.glb" />
+              <MapDisplayItem path="/table_snow.glb" />
+              <MapDisplayItem path="/table_fire.glb" />
+            </div>
+          </div>
         </section>
 
         {/* Recommended Decks */}
