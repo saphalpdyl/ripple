@@ -1,85 +1,154 @@
-# Turborepo starter
+# Ripple
 
-This Turborepo starter is maintained by the Turborepo core team.
+Ripple is a product we built for the UMaimi Horizon AI hackathon(2025), inspired by the challenges of studying for midterms using PDFs and written notes. It provides a 3-d gamified quiz experience built with a Next.js frontend, a Go backend deployed on Cloud Run, and Firebase for database storage. The application leverages a monorepo architecture managed by Turborepo and includes a WebSocket server for real-time communication.
 
-## Using this example
+## ✨ Key Features
 
-Run the following command:
+- 🎲 **3D Multiplayer Gaming**: Challenge friends in real-time quiz battles
+- 📚 **Universal File Support**: Works with PDFs, PPTs, Images, and Text
+- 🤖 **AI-Powered Questions**: Automatically generates MCQs and open-ended questions
+- 🌎 **Multi-Language Support**: Instantly translate to Chinese and Spanish
+- 📱 **Canvas Integration**: Seamlessly import your course materials
+- 🎯 **Accessibility First**: Text-to-speech and keyboard navigation support
 
-```sh
-npx create-turbo@latest
-```
+## Technical Features
 
-## What's inside?
+*   **Web App:**
+    *   User authentication (sign-up, login)
+    *   Interactive canvas page
+    *   Potentially includes courses and questions (based on the `courses.ts` and `getQuestions.ts` files)
+*   **Go Backend:**
+    *   Extracts text from various file formats (using `extractor.go` and `extractText.go`)
+    *   Translates text (using `translate.go`)
+    *   Utilizes OCR for image-based text extraction (using `gosseract.go`, go wrapper for tessaract) 
+*   **WebSocket Server:**
+    *   Enables real-time communication between the frontend and backend
 
-This Turborepo includes the following packages/apps:
+## Architecture
 
-### Apps and Packages
+The project follows a monorepo structure, which promotes code sharing and simplifies dependency management.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `go`: the compelete backend of the application
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+*   **Turborepo:** Used as the monorepo management tool, providing features like remote caching and optimized build processes.
+*   **Next.js:** The frontend is built with Next.js, a React framework that offers features like server-side rendering and static site generation.
+*   **Go:** The backend is implemented in Go and deployed on Cloud Run, leveraging its scalability and managed environment.
+*   **Firebase:** Firebase is used for database storage of the questions for cards.
+*   **WebSocket Server:** The `ws` app uses a WebSocket server to enable real-time communication.
+*   **Shared Components:** The project utilizes shared UI components (`@repo/ui`) to maintain a consistent look and feel across the application.
+*   **TypeScript:** The entire project is written in TypeScript, providing static type checking and improved code maintainability.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Apps Folder
 
-### Utilities
+The `apps` folder contains the main applications of the project:
 
-This Turborepo has some additional tools already setup for you:
+*   **`apps/web`:** This directory contains the Next.js frontend application.
+    *   `actions`: Contains asynchronous functions for fetching data and performing actions.
+    *   `app`: Contains the Next.js app router, defining the application's pages and layouts.
+    *   `components`: Contains reusable React components.
+    *   `firebase`: Contains Firebase initialization and related code.
+    *   `helpers`: Contains helper functions, such as authentication helpers.
+    *   `lib`: Contains utility functions.
+    *   `public`: Contains static assets.
+    *   `store`: Contains Zustand stores for managing application state.
+*   **`apps/go`:** This directory contains the Go backend application.
+    *   `extractor.go`: Implements the text extraction logic.
+    *   `translate.go`: Implements the translation logic.
+    *   `utils`: Contains utility functions, such as text extraction and OCR helpers.
+    *   `prompts`: Contains prompts for the translation service.
+*   **`apps/ws`:** This directory contains the WebSocket server application.
+    *   `src`: Contains the server-side code for the WebSocket server.
+    *   `public`: Contains static assets for the WebSocket server.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## Quality Aspects
 
-### Build
+This repository demonstrates several quality aspects:
 
-To build all apps and packages, run the following command:
+*   **Modern Technologies:** The project utilizes modern technologies like Turborepo, Next.js, Go, and TypeScript.
+*   **Monorepo Architecture:** The monorepo architecture promotes code sharing and simplifies dependency management.
+*   **Code Quality:** The project uses ESLint and Prettier to enforce code quality and consistency.
+*   **TypeScript:** The use of TypeScript provides static type checking and improves code maintainability.
+*   **Well-Structured Code:** The code is well-structured and organized, making it easier to understand and maintain.
 
-```
-cd my-turborepo
-pnpm build
-```
+## Inspiration
 
-### Develop
+The inspiration for Ripple came to us when we were having a hard time studying for our midterms last weekend. It was really difficult for some classes that only provided PDFs, PPTs, or even written notes to learn and test ourselves on. Hence, we decided to tackle this problem in this hackathon by creating Ripple, which provides a gamified experience of taking quizzes using the xyz method. We also hoped our solution would transcend linguistic barriers, and we made it translate into Chinese and Spanish using generative AI.
 
-To develop all apps and packages, run the following command:
+## What it does
 
-```
-cd my-turborepo
-pnpm dev
-```
+Ripple basically takes in different forms of academic texts and converts them into questions that you can play with/against your friends until one of you wins. We have also added integration to Canvas in the background, making it really easy for someone to add files from their courses directly. Similarly, we have done our best to make the platform as accessible to everyone as possible through features like translation and text to speech.
 
-### Remote Caching
+## How we built it
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+### Frontend Stack
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+- React & Next.js: Used for building the main web application with page.tsx components
+- Three.js & React Three Fiber: Implemented 3D game environment with @react-three/fiber and @react-three/drei
+- TypeScript: For type-safe development across the project
+-Zustand: State management for player and game data
+- Firebase: Authentication and real-time database
+- TailwindCSS: Styling and UI components
+Canvas API Integration: Direct connection to educational content
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+### Backend Stack
 
-```
-cd my-turborepo
-npx turbo login
-```
+- Go with Gin: RESTful API server
+- Tesseract OCR: Text extraction from images and PDFs
+- OpenRouter: AI-powered question generation and translation
+- Cloud Run: Deployment and scaling
+- WebSocket Server: Real-time game state synchronization
+DevOps & Architecture
+- Turborepo: Monorepo management and build optimization
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Integrations
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- Canvas LMS API for user info and course content
+- Multi-language support (English, Chinese, Spanish)
+- Text-to-speech accessibility features
+- PDF and PPT file processing
 
-```
-npx turbo link
-```
+## Challenges we ran into
 
-## Useful Links
+The biggest challenge was figuring out the game loop and also getting a 3D workspace to work through the browser.
 
-Learn more about the power of Turborepo:
+## Accomplishments that we're proud of
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+We are really proud of being able to extend generative AI for more accessibility areas, the implementation of the card deck and 3D table, and the overall look and feel of the application.
+
+## What's next for Ripple
+
+We really want to connect Ripple to SMS or a popular messaging service for those who might not be able to load 3D animations in their devices.
+
+## Run Your Own Instance
+
+To run your own instance of Ripple, follow these steps:
+
+### Frontend (`apps/web`)
+
+1.  Navigate to the frontend directory: `cd apps/web`
+2.  Install dependencies: `pnpm install`
+3.  Run the development server: `pnpm dev`
+
+The frontend will be accessible at `localhost:3000` by default.
+
+### Backend (`apps/go`)
+
+1.  Ensure you have Go installed.
+2.  Navigate to the backend directory: `cd apps/go`
+3.  Download dependencies: `go mod download`
+4.  Run the backend: `go run main.go`
+
+The backend will be accessible at `localhost:8080` by default.
+
+### WebSocket Server (`apps/ws`)
+
+1.  Navigate to the WebSocket server directory: `cd apps/ws`
+2.  Install dependencies: `pnpm install`
+3.  Run the server: `pnpm dev`
+
+The WebSocket server will be running on a specific port.
+
+
+Meet the amazing team behind Ripple:
+
+- [Saphal](https://github.com/saphalpdyl) - Frontend & 3D
+- [Sugam(vein05)](https://github.com/vein05) - Backend & AI
+- [Sakshyam](https://github.com/S-Sigdel) - Design & UX
