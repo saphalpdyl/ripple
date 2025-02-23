@@ -7,7 +7,7 @@ import ShuffleDeck from "@/components/three/shuffle_deck";
 import { useRoomStore } from "@/store/players";
 import { ClientPlayerData, PlayerData } from "@repo/types";
 import useGlobalStore from "@/store/global";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Ground from "@/components/three/ground";
 
 import { useSpring, animated } from "@react-spring/three"
@@ -32,23 +32,39 @@ export default function Game() {
   const otherPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId !== socket?.id)[0];
   const thisPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId === socket?.id)[0];
 
-  const { position, rotation} = useSpring({
-    from: {
-      position: [0, 100, 0],
-      rotation: [Math.PI/2, 0 , 0],
-      fov: 100,
-    },
-    to: {
-      position: [0, 3, 4],
-      rotation: [-Math.PI/4, 0, 0],
-      fov: 85,
-    },
-    config: {
-      mass: 1,
-      tension: 100,
-      friction: 40,
+  // const { position, rotation} = useSpring({
+  //   from: {
+  //     position: [0, 100, 0],
+  //     rotation: [Math.PI/2, 0 , 0],
+  //     fov: 100,
+  //   },
+  //   to: {
+  //     position: [0, 3, 4],
+  //     rotation: [-Math.PI/4, 0, 0],
+  //     fov: 85,
+  //   },
+  //   config: {
+  //     mass: 1,
+  //     tension: 100,
+  //     friction: 40,
+  //   }
+  // });
+
+  const [data, api] = useSpring(() => ({
+    position: [0, 100, 0],
+    rotation: [Math.PI/2, 0 , 0],
+    fov: 100,
+  }));
+
+  useEffect(() => {
+    if ( roomState === "PLAYING" ) {
+      api.start({
+        position: [0, 3, 4],
+        rotation: [-Math.PI/4, 0, 0],
+        fov: 85,
+      });
     }
-  });
+  }, [roomState]);
 
   return <Canvas className="h-full w-full">
 
@@ -64,7 +80,7 @@ export default function Game() {
     <ShuffleDeck cards={remainingCards}/>
 
     {/* <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/> */}
-    <AnimatedCamera makeDefault position={position} rotation={rotation} fov={85}/>
+    <AnimatedCamera makeDefault position={data.position} rotation={data.rotation} fov={85}/>
 
     <Suspense fallback={null}>
       <Ground />
