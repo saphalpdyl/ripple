@@ -47,7 +47,7 @@ export default function Room() {
                 )
               }
             </div>
-          <Game />
+            <Game />
         </ConnectSocket>
       </CardInitialize>
     </SocketConnection>

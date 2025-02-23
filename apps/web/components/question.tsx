@@ -4,6 +4,7 @@ import { Card as UICard, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import DottedBackground from '@/components/dotted-background';
 
 export default function Question({
   question
@@ -28,45 +29,48 @@ export default function Question({
   return (
     <UICard className="w-full max-w-2xl mx-auto">
       <CardContent className="pt-6">
-        <div className="flex flex-col space-y-6">
-          <h2 className="text-xl font-bold text-center">
-            {question.question}
-          </h2>
-          
-          <div className="w-full">
-            {question.questionType === "MCQ" && (
-              <RadioGroup
-                value={option?.toString()}
-                onValueChange={handleOptionChange}
-                className="space-y-4"
-              >
-                {question.options?.map((opt) => (
-                  <div key={opt.Id} className="flex items-center space-x-3">
-                    <RadioGroupItem
-                      value={opt.Id.toString()}
-                      id={opt.Id.toString()}
-                    />
-                    <Label
-                      htmlFor={opt.Id.toString()}
-                      className="text-base cursor-pointer"
-                    >
-                      {opt.value}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            )}
+        <DottedBackground>
+          <div className="flex flex-col space-y-6">
+            <h2 className="text-xl font-bold text-center">
+              {question.question}
+            </h2>
             
-            {question.questionType === "WH" && (
-              <Textarea
-                value={whAnswer}
-                onChange={handleWhAnswerChange}
-                placeholder="Type your answer here..."
-                className="min-h-32"
-              />
-            )}
+            <div className="w-full">
+              {question.questionType === "MCQ" && (
+                <RadioGroup
+                  value={option?.toString()}
+                  onValueChange={handleOptionChange}
+                  className="space-y-4"
+                >
+                  {question.options?.map((opt) => (
+                    <div key={opt.Id} className="flex items-center space-x-3">
+                      <RadioGroupItem
+                        value={opt.Id.toString()}
+                        id={opt.Id.toString()}
+                      />
+                      <Label
+                        htmlFor={opt.Id.toString()}
+                        className="text-base cursor-pointer"
+                      >
+                        {opt.value}
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              )}
+              
+              {question.questionType === "WH" && (
+                <Textarea
+                  value={whAnswer}
+                  onChange={handleWhAnswerChange}
+                  placeholder="Type your answer here..."
+                  className="min-h-32"
+                />
+              )}
+            </div>
           </div>
-        </div>
+
+        </DottedBackground>
       </CardContent>
     </UICard>
   );
