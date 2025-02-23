@@ -236,6 +236,8 @@ func main() {
 				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save uploaded file: " + err.Error()})
 				return
 			}
+		} else if request.URL == "" && request.File == nil {
+			savedFilePath = "demo/temp.ppt"
 		} else {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Either URL or File is required"})
 			return
@@ -257,8 +259,8 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, gin.H{
-			"questions":   questions,
-			"whquestions": whquestions,
+			"mcqquestions": questions,
+			"whquestions":  whquestions,
 		})
 	})
 
