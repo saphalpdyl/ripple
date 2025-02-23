@@ -13,6 +13,9 @@ Ripple is a product we built for the UMaimi Horizon AI hackathon(2025), inspired
 
 ## Technical Features
 
+<img src="/apps/web/public/diagram.png" alt="ripple"/> 
+
+
 *   **Web App:**
     *   User authentication (sign-up, login)
     *   Interactive canvas page
@@ -77,8 +80,6 @@ The inspiration for Ripple came to us when we were having a hard time studying f
 Ripple basically takes in different forms of academic texts and converts them into questions that you can play with/against your friends until one of you wins. We have also added integration to Canvas in the background, making it really easy for someone to add files from their courses directly. Similarly, we have done our best to make the platform as accessible to everyone as possible through features like translation and text to speech.
 
 ## How we built it
-
-<img src="/apps/web/public/diagram.png" alt="ripple"/> 
 
 ### Frontend Stack
 
