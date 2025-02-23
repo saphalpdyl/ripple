@@ -18,4 +18,6 @@ export const WebSocketEvents = {
 
   PLAYER_QUESTION_SELECT: "player-question-select",
   PLAYER_QUESTION_ANSWER: "player-question-answer",
+
+  PLAYER_INFO_UPDATE: "player-info-update",
 }

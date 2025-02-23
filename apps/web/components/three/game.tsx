@@ -1,6 +1,6 @@
 "use client";
 
-import { Grid, MapControls, OrbitControls, PerspectiveCamera, TransformControls } from "@react-three/drei";
+import { Grid, Html, MapControls, OrbitControls, PerspectiveCamera, TransformControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Deck from "@/components/three/deck";
 import ShuffleDeck from "@/components/three/shuffle_deck";
@@ -79,40 +79,56 @@ export default function Game() {
     }
   }, [roomState]);
 
-  return <Canvas className="h-full w-full">
-
+  return <>
     {
-      roomState === "PLAYING" && (
-        <>
-          <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].rotation as [number, number, number]}   me player={thisPlayer!}/>
-          <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].rotation as [number, number, number]}   player={otherPlayer!} />
-        </>
+      thisPlayer && (
+        <div className="absolute z-[90] left-1/2 -translate-x-1/2 top-2 flex items-center justify-center gap-3 border p-3 rounded-lg text-gray-700">
+          <div className="w-5 h-5 rounded-full bg-green-400 ring-2 ring-green-600 ring-offset-1"></div>
+          <span>You are playing as { thisPlayer?.username } </span>
+        </div>
       )
     }
+    <Canvas className="h-full w-full">
 
-    <ShuffleDeck cards={remainingCards}/>
+      {
+        roomState === "PLAYING" && (
+          <>
+            <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].rotation as [number, number, number]}   me player={thisPlayer!}/>
+            <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].rotation as [number, number, number]}   player={otherPlayer!} />
+            <Html position={[PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position[0], PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position[1] + 2, PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position[2]]}>
+              <div className="absolute z-[90] left-1/2 -translate-x-1/2 top-1/2 flex items-center justify-center gap-3 rounded-lg text-gray-300 font-bold text-7xl">
+                <span>{ otherPlayer?.username }</span>
+              </div>
+            </Html>
+          </>
+        )
+      }
 
-    {/* <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/> */}
-    <AnimatedCamera makeDefault position={data.position} rotation={data.rotation} fov={85}/>
 
-    <Suspense fallback={null}>
-      <Ground />
-    </Suspense>
+      <ShuffleDeck cards={remainingCards}/>
 
-    <ambientLight intensity={1} castShadow/>
-    <hemisphereLight 
-      intensity={0.35}
-      castShadow
-    />
-    <pointLight 
-      position={[0,4,0]} 
-      intensity={30}
-      castShadow
-      shadow-mapSize={[2048, 2048]}
-      shadow-bias={-0.001}
-      shadow-camera-near={0.1}
-      shadow-camera-far={20}
-    />
-    {/* <OrbitControls/> */}
-  </Canvas>
+      {/* <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/> */}
+      <AnimatedCamera makeDefault position={data.position} rotation={data.rotation} fov={85}/>
+
+      <Suspense fallback={null}>
+        <Ground />
+      </Suspense>
+
+      <ambientLight intensity={1} castShadow/>
+      <hemisphereLight 
+        intensity={0.35}
+        castShadow
+      />
+      <pointLight 
+        position={[0,4,0]} 
+        intensity={30}
+        castShadow
+        shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.001}
+        shadow-camera-near={0.1}
+        shadow-camera-far={20}
+      />
+      {/* <OrbitControls/> */}
+    </Canvas>
+  </>
 }   

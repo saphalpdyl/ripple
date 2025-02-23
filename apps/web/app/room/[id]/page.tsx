@@ -11,35 +11,33 @@ import { WebSocketEvents } from "@repo/common/constants";
 import { useParams } from "next/navigation";
 
 import { AnimatePresence, motion } from "motion/react";
+import { useEffect } from "react";
+import { useAuthStore } from "@/store/auth";
+import { generateGamerUsername } from "@/lib/utils";
 
 export default function Room() {
   const { id } = useParams();
   const { socket } = useGlobalStore();
+  const { auth } = useAuthStore();
   const { players, adminUserConnectionId, selectedQuestion, roomState } = useRoomStore();
+
+  useEffect(() => {
+    if ( !socket ) return;
+
+    socket.emit(WebSocketEvents.PLAYER_INFO_UPDATE, {
+      playerInfo: {
+        userId: auth?.user?.uid,
+        username: generateGamerUsername(),
+      },
+      connectionId: socket.id,
+    })
+  }, [socket]);
 
   return <div className="h-screen w-screen">
     <SocketConnection room={id as string || ""}>
       <CardInitialize>
         <ConnectSocket>
-          {
-            ((Object.keys(players).length) >= 2) && (socket!.id === adminUserConnectionId) && (
-              <div 
-                onClick={() => {
-                  socket!.emit(WebSocketEvents.GAME_START, {});
-                }}
-                className="absolute h-12 w-36 top-12 left-3 border rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-100 z-[90]">
-                  Get ready
-              </div>
-            )
-          }
-            <div 
-              onClick={() => {
-                socket!.emit(WebSocketEvents.GAME_END, {});
-              }}
-              className="absolute h-12 w-36 top-36 left-3 border rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-100 z-[90]">
-                End game
-            </div>
-
+          
             <AnimatePresence>
               {roomState === "WAITING_FOR_PLAYERS" && (
                 <motion.div 

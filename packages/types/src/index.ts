@@ -5,6 +5,7 @@ export type GameRoom = {
 
 export type ClientPlayerData = {
   userId: string;
+  username: string;
   connectionId: string;
   deck?: Deck;
   misc?: {
@@ -17,6 +18,7 @@ export type PlayerData = {
   connectionId: string;
   userId: string;
   userIndex: number;
+  username: string;
 };
 
 export type PlayerDeckData = Record<string, Deck>;

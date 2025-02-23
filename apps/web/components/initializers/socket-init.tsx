@@ -21,6 +21,9 @@ export default function SocketConnection({ children, room } : SocketConnectionPr
     setSocket(new Socket({
       host: PARTYKIT_HOST,
       room,
+      query: {
+        test: "hello"
+      }
     }));
 
     addSocketConnectCallbacks(async socket => {

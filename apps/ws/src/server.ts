@@ -91,7 +91,20 @@ export default class Server extends BasePartyServer implements Party.Server {
       this.gameState = "END";
       this.sendUpdatedPlayerData();
     });
+
+    this.on(WebSocketEvents.PLAYER_INFO_UPDATE, ({ playerInfo, connectionId }: {
+      playerInfo: Partial<PlayerData>,
+      connectionId: string,
+    }) => {
+      this.users.set(connectionId, {
+        ...this.users.get(connectionId),
+        ...playerInfo,
+      } as PlayerData);
+
+      this.sendUpdatedPlayerData();
+    });
   }
+  
   
   onConnect(connection: Party.Connection, ctx: Party.ConnectionContext): void | Promise<void> {
     if ( this.gameState === "PLAYING" || Object.keys(this.users).length > 2 ) return connection.close();
@@ -104,6 +117,7 @@ export default class Server extends BasePartyServer implements Party.Server {
       connectionId: connection.id,
       userId: "test-user-id",
       userIndex: this.userMaxIndex++,
+      username: "",
     } satisfies PlayerData);
     
     if ( this.gameState === "WAITING_FOR_PLAYERS" && Object.keys(Object.fromEntries(this.users)).length >= 2 ) {
