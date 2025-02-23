@@ -10,6 +10,10 @@ import useGlobalStore from "@/store/global";
 import { Suspense } from "react";
 import Ground from "@/components/three/ground";
 
+import { useSpring, animated } from "@react-spring/three"
+
+const AnimatedCamera = animated(PerspectiveCamera);
+
 const PLAYER_POSITION_INDEX_TO_LOC_ROT = {
   0: {
     position: [0, 0, 3],
@@ -28,6 +32,24 @@ export default function Game() {
   const otherPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId !== socket?.id)[0];
   const thisPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId === socket?.id)[0];
 
+  const { position, rotation} = useSpring({
+    from: {
+      position: [0, 100, 0],
+      rotation: [Math.PI/2, 0 , 0],
+      fov: 100,
+    },
+    to: {
+      position: [0, 3, 4],
+      rotation: [-Math.PI/4, 0, 0],
+      fov: 85,
+    },
+    config: {
+      mass: 1,
+      tension: 100,
+      friction: 40,
+    }
+  });
+
   return <Canvas className="h-full w-full">
 
     {
@@ -41,7 +63,8 @@ export default function Game() {
 
     <ShuffleDeck cards={remainingCards}/>
 
-    <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/>
+    {/* <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/> */}
+    <AnimatedCamera makeDefault position={position} rotation={rotation} fov={85}/>
 
     <Suspense fallback={null}>
       <Ground />
@@ -50,6 +73,6 @@ export default function Game() {
     <ambientLight intensity={1}/>
     <hemisphereLight intensity={0.35}/>
     <pointLight position={[0,4,0]} intensity={30}/>
-    <OrbitControls/>
+    {/* <OrbitControls/> */}
   </Canvas>
 }   
