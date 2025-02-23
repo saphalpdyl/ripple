@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react"
 import getCourses from "@/actions/courses"
 import getFiles from "@/actions/getFiles"
-import getQuestions from "@/actions/getQuestions"
+import {getPPTQuestions} from "@/actions/getQuestions"
+
 import speak from "@/actions/speak"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -55,13 +56,10 @@ export default function Courses() {
   }
 
   const handleFileClick = async (file: File) => {
-    try {
-      const questions = await getQuestions(file)
-      console.log(questions)
-    } catch (err) {
-      console.error(err)
-    }
-  }
+    console.log("Getting questions")
+    var data = await getPPTQuestions();
+    console.log(data);}
+
 
   const handleSpeak = async () => {
     await speak("Shut up Saphal. I am a better speaker than you.")
