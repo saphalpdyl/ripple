@@ -32,24 +32,6 @@ export default function Game() {
   const otherPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId !== socket?.id)[0];
   const thisPlayer = Object.values(players).filter((player: ClientPlayerData) => player.connectionId === socket?.id)[0];
 
-  // const { position, rotation} = useSpring({
-  //   from: {
-  //     position: [0, 100, 0],
-  //     rotation: [Math.PI/2, 0 , 0],
-  //     fov: 100,
-  //   },
-  //   to: {
-  //     position: [0, 3, 4],
-  //     rotation: [-Math.PI/4, 0, 0],
-  //     fov: 85,
-  //   },
-  //   config: {
-  //     mass: 1,
-  //     tension: 100,
-  //     friction: 40,
-  //   }
-  // });
-
   const [data, api] = useSpring(() => ({
     position: [0, 100, 0],
     rotation: [Math.PI/2, 0 , 0],
