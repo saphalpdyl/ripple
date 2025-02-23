@@ -9,6 +9,8 @@ import DottedBackground from '@/components/dotted-background';
 import { Volume2 } from 'lucide-react';
 import speak from "@/actions/speak";
 import toast from 'react-hot-toast';
+import useGlobalStore from '@/store/global';
+import { WebSocketEvents } from '@repo/common/constants';
 
 export default function Question({
   question,
@@ -17,6 +19,7 @@ export default function Question({
   question: Card & { player: PlayerData },
   disabled?: boolean
 }) {
+  const { socket } = useGlobalStore();
   const [whAnswer, setWHAnswer] = useState("");
   const [option, setOption] = useState<number | null>(null);
 
@@ -105,6 +108,12 @@ export default function Question({
                   } else {
                     toast.error('It was the wrong answer');
                   }
+
+                  socket?.emit(WebSocketEvents.PLAYER_QUESTION_ANSWER, {
+                    question: question,
+                    playerId: socket.id,
+                    isCorrect,
+                  });
                 }}
                 disabled={disabled} // Disable the Submit button if it's not the user's turn
               >
