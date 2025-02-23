@@ -29,11 +29,12 @@ export default function Question({
     
   };
 
-  const handelSpeaker = (question: string) => {
+  const handelSpeaker = (qs: string) => {
     try{
-      speak(question);
-    }catch(e){
-      console.log(e);      
+        speak(qs);
+      }catch(e){
+        console.log(e);      
+    }
   }
 
   return (
@@ -79,7 +80,7 @@ export default function Question({
               )}
             </div>
             <div className='flex justify-end'>
-              <Button className='w-1/6' onClick={() => handelSpeaker(question.question)}>
+              <Button className='w-1/6' onClick={() => handelSpeaker(`${question.question}\n${question.options?.map((opt,i) => `${i+1}.${opt.value}`).join('\n')}.`)}>
               <Volume2 className="" />
               </Button>
             </div>
@@ -89,5 +90,4 @@ export default function Question({
       </CardContent>
     </UICard>
   );
-}
 }
