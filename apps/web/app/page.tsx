@@ -1,11 +1,15 @@
 "use client";
 
 import Image from "next/image"
-import { Plus, BookOpen, Trophy, Users, BarChart } from "lucide-react"
+import { Plus, BookOpen, Trophy, Users, BarChart, FileArchive } from "lucide-react"
 import { OrbitControls, Stage } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber";
 import MapLoader from "@/components/three/map-loader";
 import MapDisplayItem from "@/components/three/map-display-item";
+import { Dialog, DialogContent, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
+
+import { File } from "lucide-react";
 
 export default function Page() {
   return (
@@ -38,10 +42,41 @@ export default function Page() {
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Deck Sources</h2>
           <div className="flex items-center justify-between">
             <p className="text-gray-600">Start creating your new deck by adding sources.</p>
-            <button className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
-              <Plus className="mr-2" size={20} />
-              Add Source
-            </button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+                  <Plus className="mr-2" size={20} />
+                  Add Source
+                </button>
+              </DialogTrigger>
+              <DialogContent className="min-w-[800px]">
+                <DialogTitle>
+                </DialogTitle>
+                <div className="flex flex-col items-start justify-center gap-3 h-[500px] min-w-[400px]">
+                  <span className="text-3xl font-bold ">Add Source Decks</span>
+                  <p className="text-sm italic text-gray-600">Create source decks from uploaded-pdfs or connect directly to canvas</p>
+                  <hr />
+                  <div className="flex gap-3 w-full">
+                    <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-12 gap-6 w-full hover:bg-gray-200">
+                      <FileArchive size={120} className="text-gray-500" />
+                      <form onSubmit={e => {
+                        e.preventDefault();
+                        
+                      }}
+                        className="flex flex-col items-center"
+                      >
+                        <input type="file" accept="pdf" className="text-xl text-gray-600"/>
+                        <button className="Uploaded">Upload from computer</button>
+                      </form>
+                    </div>
+                    <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-12 gap-6 w-full hover:bg-gray-200">
+                      <Image src="/canvas_logo.png" alt="ss" width={100} height={100}/>
+                      <span className="text-md p-2 text-white bg-yellow-500 rounded-lg hover:bg-yellow-600">Login in to canvas</span>
+                    </div>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </section>
         <section className="flex-1 bg-white rounded-lg shadow p-6 mb-8">
