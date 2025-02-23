@@ -3,6 +3,7 @@
 import { Grid, MapControls, OrbitControls, PerspectiveCamera, TransformControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Deck from "@/components/three/deck";
+import ShuffleDeck from "@/components/three/shuffle_deck";
 
 export default function Game() {
   return <Canvas className="h-full w-full">
@@ -12,6 +13,7 @@ export default function Game() {
     <Deck numberOfCards={5} position={[0, 0, 3]} rotation={[Math.PI * 1.8, 0, 0]} me/>
     <Deck numberOfCards={5} position={[-3.5, 0, 0]} rotation={[0, -Math.PI * 0.5, 0]}/>
 
+    <ShuffleDeck cardStackNumber={10}/>
 
     <PerspectiveCamera makeDefault position={[0, 3, 4]} fov={85}/>
 
