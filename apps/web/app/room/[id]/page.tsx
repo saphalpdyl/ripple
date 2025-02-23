@@ -3,6 +3,7 @@
 import CardInitialize from "@/components/initializers/card-initialize";
 import ConnectSocket from "@/components/initializers/socket-connect";
 import SocketConnection from "@/components/initializers/socket-init";
+import Question from "@/components/question";
 import Game from "@/components/three/game";
 import useGlobalStore from "@/store/global";
 import { useRoomStore } from "@/store/players";
@@ -28,7 +29,6 @@ export default function Room() {
                   Get ready
               </div>
             )
-
           }
             <div 
               onClick={() => {
@@ -41,7 +41,9 @@ export default function Room() {
             <div>
               {
                 selectedQuestion && (
-                  <div> Question Selected.</div>
+                  <div className="absolute top-1/2 -translate-y-[70%] left-4 z-[90] max-w-96">
+                    <Question question={selectedQuestion} />
+                  </div>
                 )
               }
             </div>
