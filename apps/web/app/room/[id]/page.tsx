@@ -22,7 +22,7 @@ export default function Room() {
   const { id } = useParams();
   const { socket, setSocket } = useGlobalStore();
   const { auth } = useAuthStore();
-  const { players, adminUserConnectionId, selectedQuestion, roomState } = useRoomStore();
+  const { players, adminUserConnectionId, selectedQuestion, roomState, turn } = useRoomStore();
 
   useEffect(() => {
     if ( !socket ) return;
@@ -86,8 +86,8 @@ export default function Room() {
             <div>
               {
                 selectedQuestion && (
-                  <div className="absolute top-1/2 -translate-y-[70%] left-4 z-[90] max-w-96">
-                    <Question question={selectedQuestion} />
+                  <div className="absolute top-1/2 -translate-y-[70%] left-4 z-[90] min-w-80 max-w-96">
+                    <Question question={selectedQuestion} disabled={!(turn === socket!.id)}/>
                   </div>
                 )
               }

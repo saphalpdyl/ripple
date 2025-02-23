@@ -33,11 +33,13 @@ export default function CardInitialize({
         gameState,
         remainingCards,
         admin,
+        turn,
       }) => {
         useRoomStore.setState({
           roomState: gameState,
           remainingCards,
           adminUserConnectionId: admin,
+          turn: turn ?? "",
         });
       });
 

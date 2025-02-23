@@ -14,13 +14,13 @@ export default class Server extends BasePartyServer implements Party.Server {
   private userMaxIndex = 0;
   private remainingCards: Card[] = [];
   private gameState: "WAITING_FOR_PLAYERS" | "PLAYING" | "END" = "WAITING_FOR_PLAYERS";
+  private turn: string | null = null;
   
   private adminUserConnectionId: string | null = null;
 
   private sendUpdatedPlayerData() {
     // Compile different data into one client player data object
     // Loop through all connections ids and create a new object
-    console.log("upding dnecaios dauhsyuyvu", this.remainingCards)
     const finalPayload: Record<string, ClientPlayerData> = {};
     
     for ( const [connectionId, playerData] of this.users.entries() ) {
@@ -42,7 +42,15 @@ export default class Server extends BasePartyServer implements Party.Server {
       gameState: this.gameState,
       remainingCards: this.remainingCards,
       admin: this.adminUserConnectionId,
+      turn: this.turn,
     });
+  }
+  
+  private flipTurn() {
+    const anotherTurnPlayerId = Array.from(this.users.keys()).find((id) => id !== this.turn);
+    if ( anotherTurnPlayerId ) {
+      this.turn = anotherTurnPlayerId;
+    }
   }
   
   private startGame() {
@@ -66,6 +74,11 @@ export default class Server extends BasePartyServer implements Party.Server {
 
     this.remainingCards = deck;
     this.gameState = "PLAYING";
+
+    // Randomly select either one of the players to start the game
+    const playerIds = Array.from(this.users.keys());
+    this.turn = playerIds[Math.floor(Math.random() * playerIds.length)];
+    
     this.sendUpdatedPlayerData();
   }
   
@@ -86,6 +99,21 @@ export default class Server extends BasePartyServer implements Party.Server {
       player,
     });
   });
+
+  this.on(WebSocketEvents.PLAYER_QUESTION_ANSWER, ({ question, playerId, isCorrect }) => {
+    if ( this.gameState !== "PLAYING" ) return;
+
+    // Remove the question from the player's deck
+    const playerDeck = this.userDecks[playerId];
+    if ( !playerDeck ) return;
+
+    if ( isCorrect ) {
+      delete playerDeck[question.cardId];
+    }
+    
+    this.flipTurn();
+    this.sendUpdatedPlayerData();
+  });    
 
     this.on(WebSocketEvents.GAME_END, () => {
       this.gameState = "END";

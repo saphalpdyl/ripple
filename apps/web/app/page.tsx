@@ -15,25 +15,14 @@ export default function Page() {
   const { setSocket } = useGlobalStore();
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow">
+      <header className="bg-white/20 backdrop-blur-sm shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
           <div className="flex items-center">
             <Image src="/ripple_logo.png" alt="Ripple Logo" width={50} height={50} />
             <p className="ml-3 text-gray-600 text-xl italic">Learning Gamified.</p>
           </div>
-          <nav className="flex space-x-4">
-            <a href="#" className="text-gray-500 hover:text-gray-700">
-              Dashboard
-            </a>
-            <a href="#" className="text-gray-500 hover:text-gray-700">
-              Decks
-            </a>
-            <a href="#" className="text-gray-500 hover:text-gray-700">
-              Profile
-            </a>
-          </nav>
         </div>
       </header>
 
@@ -107,6 +96,17 @@ export default function Page() {
         </section>
         <section className="flex-1 bg-white rounded-lg shadow p-6 mb-8">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Self practice</h2>
+          <Link href={`/room/${Math.random().toFixed(16).slice(2)}`} className="flex items-center border p-2 gap-4 rounded-lg">
+                <div className="w-3 h-3 bg-red-500 rounded-full flex flex-col">
+                </div>
+                <div className="flex flex-col items-start">
+                  <p>Computer Programming and Arthimetics</p>
+                  <p className="text-xs text-gray-700">4/12 questions correct | Practice recommended</p>
+                </div>
+                <div className="flex-1 flex justify-end">
+                  <Button className="">Start session</Button>
+                </div>
+              </Link>
         </section>
         </div>
 

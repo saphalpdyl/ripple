@@ -2,6 +2,9 @@ import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
+import useGlobalStore from '@/store/global';
+import { useRoomStore } from '@/store/players';
+import toast from 'react-hot-toast';
 
 export default function Card({
   position = [0, 0, 0],
@@ -15,6 +18,8 @@ export default function Card({
   me: boolean;
   onClick?: () => void;
 }) {
+  const { socket } = useGlobalStore();
+  const { turn } = useRoomStore();
   const [ hovering, setHovering ] = useState(false);
   
   // Load the GLB model
@@ -45,7 +50,11 @@ export default function Card({
     <group
       onClick={(e) => {
         e.stopPropagation();
-        console.log('click');
+
+        if ( !me || !socket || turn !== socket.id ) {
+          toast.error("Hold on! It's not your turn yet.")
+          return;
+        }
         if ( onClick ) onClick();
       }}
       ref={meshRef}
