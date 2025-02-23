@@ -1,6 +1,6 @@
 "use client";
 
-import { Grid, MapControls, OrbitControls, PerspectiveCamera, TransformControls } from "@react-three/drei";
+import { Grid, Html, MapControls, OrbitControls, PerspectiveCamera, TransformControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Deck from "@/components/three/deck";
 import ShuffleDeck from "@/components/three/shuffle_deck";
@@ -95,9 +95,15 @@ export default function Game() {
           <>
             <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[0].rotation as [number, number, number]}   me player={thisPlayer!}/>
             <Deck position={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position as [number, number, number]} rotation={PLAYER_POSITION_INDEX_TO_LOC_ROT[2].rotation as [number, number, number]}   player={otherPlayer!} />
+            <Html position={[PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position[0], PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position[1] + 2, PLAYER_POSITION_INDEX_TO_LOC_ROT[2].position[2]]}>
+              <div className="absolute z-[90] left-1/2 -translate-x-1/2 top-1/2 flex items-center justify-center gap-3 rounded-lg text-gray-300 font-bold text-7xl">
+                <span>{ otherPlayer?.username }</span>
+              </div>
+            </Html>
           </>
         )
       }
+
 
       <ShuffleDeck cards={remainingCards}/>
 
