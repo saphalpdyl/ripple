@@ -4,7 +4,10 @@ import { Card as UICard, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import DottedBackground from '@/components/dotted-background';
+import { Volume2 } from 'lucide-react';
+import speak  from "@/actions/speak";
 
 export default function Question({
   question
@@ -25,6 +28,13 @@ export default function Question({
     setOption(optionNumber);
     
   };
+
+  const handelSpeaker = (question: string) => {
+    try{
+      speak(question);
+    }catch(e){
+      console.log(e);      
+  }
 
   return (
     <UICard className="w-full max-w-2xl mx-auto">
@@ -68,10 +78,16 @@ export default function Question({
                 />
               )}
             </div>
+            <div className='flex justify-end'>
+              <Button className='w-1/6' onClick={() => handelSpeaker(question.question)}>
+              <Volume2 className="" />
+              </Button>
+            </div>
           </div>
 
         </DottedBackground>
       </CardContent>
     </UICard>
   );
+}
 }
