@@ -83,7 +83,7 @@ export default function Room() {
             </AnimatePresence>
 
 
-            <div className="absolute top-2 left-2 z-[90]">
+            <div className="absolute top-10 left-2 z-[1200]">
               <Link 
               onClick={() => {
                 setSocket(null);
