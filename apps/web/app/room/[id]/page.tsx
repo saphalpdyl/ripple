@@ -92,7 +92,7 @@ export default function Room() {
                 )
               }
             </div>
-            <Game />
+            <Game roomId={id as string}/>
         </ConnectSocket>
       </CardInitialize>
     </SocketConnection>

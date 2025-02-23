@@ -23,7 +23,6 @@ const useGlobalStore = create<GlobalState>((set) => ({
 
   socketConnectCallbacks: [],
   addSocketConnectCallbacks: cb => set(prev => ({ socketConnectCallbacks: [...prev.socketConnectCallbacks, cb ]})),
-
 }));
 
 export default useGlobalStore;

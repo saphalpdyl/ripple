@@ -25,6 +25,8 @@ interface RoomState {
     answerId?: number;
     answerWH?: string;
   }) => void;
+
+  token: string | null;
 }
 
 export const useRoomStore = create<RoomState>((set) => ({
@@ -41,5 +43,7 @@ export const useRoomStore = create<RoomState>((set) => ({
   setSelectedQuestion: (question) => set({ selectedQuestion: question }),
   selectedAnswer: null,
   setSelectedAnswer: (answer) => set({ selectedAnswer: answer }),
+
+  token: null,
 
 }));
