@@ -1,9 +1,9 @@
-import { Card, PlayerData, PlayerDeckData, PlayerMiscData } from "@repo/types";
+import { Card, ClientPlayerData, PlayerData, PlayerDeckData, PlayerMiscData } from "@repo/types";
 import { create } from "zustand";
 
 interface RoomState {
-  players: Record<string, PlayerData>;
-  setPlayers: (players: Record<string, PlayerData>) => void;
+  players: Record<string, ClientPlayerData>;
+  setPlayers: (players: Record<string, ClientPlayerData>) => void;
 
   roomState: "WAITING_FOR_PLAYERS" | "PLAYING" | "END";
   remainingCards: Card[];
@@ -13,7 +13,7 @@ interface RoomState {
 
 export const useRoomStore = create<RoomState>((set) => ({
   players: {},
-  setPlayers: (players: Record<string, PlayerData>) => set({ players }),
+  setPlayers: (players: Record<string, ClientPlayerData>) => set({ players }),
 
   roomState: "WAITING_FOR_PLAYERS",
   remainingCards: [],

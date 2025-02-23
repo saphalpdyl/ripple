@@ -19,6 +19,7 @@ export default class Server extends BasePartyServer implements Party.Server {
   private sendUpdatedPlayerData() {
     // Compile different data into one client player data object
     // Loop through all connections ids and create a new object
+    console.log("upding dnecaios dauhsyuyvu", this.remainingCards)
     const finalPayload: Record<string, ClientPlayerData> = {};
     
     for ( const [connectionId, playerData] of this.users.entries() ) {
@@ -38,7 +39,7 @@ export default class Server extends BasePartyServer implements Party.Server {
 
     this.emitAll(WebSocketEvents.GAME_STATE, {
       gameState: this.gameState,
-      remaininingCards: this.remainingCards,
+      remainingCards: this.remainingCards,
       admin: this.adminUserConnectionId,
     });
   }
@@ -75,6 +76,8 @@ export default class Server extends BasePartyServer implements Party.Server {
   }
   
   onConnect(connection: Party.Connection, ctx: Party.ConnectionContext): void | Promise<void> {
+    if ( this.gameState === "PLAYING" || Object.keys(this.users).length >= 2 ) return connection.close();
+    
     if ( !this.adminUserConnectionId ) {
       this.adminUserConnectionId = connection.id;
     }
