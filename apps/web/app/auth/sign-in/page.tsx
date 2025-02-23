@@ -2,22 +2,11 @@
 
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { FormEvent } from "react";
-
 import { fireauth } from "@/firebase/init";
+import { LoginForm } from "@/components/login-form"
 
 export default function SignInPage() {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const data = {
-      email: e.currentTarget.username.value,
-      password: e.currentTarget.password.value,
-    }
-    onSubmit(data);
-  }
-  
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: { email: string; password: string }) => {
     try {
       await signInWithEmailAndPassword(fireauth, data.email, data.password);
     } catch(e) {
@@ -26,11 +15,9 @@ export default function SignInPage() {
         case "auth/invalid-credential":
           toastDescription = "The entered credentials are invalid";
           break;
-      
         case "auth/invalid-email":
           toastDescription = `The email ${data.email} is invalid.`
-        break;
-          
+          break;
         default:
           toastDescription = "Something went wrong, and it wasn't your fault!"
           break;
@@ -39,13 +26,10 @@ export default function SignInPage() {
   }
   
   return (
-    <div>
-      <h1>Sign In</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Username" />
-        <input type="password" name="password" placeholder="Password" />
-        <button type="submit">Sign In</button>
-      </form>
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="w-full max-w-sm">
+        <LoginForm/>
+      </div>
     </div>
-  );
+  )
 }
