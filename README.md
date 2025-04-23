@@ -12,6 +12,8 @@ Ripple is a web application born out of the UMaimi Horizon AI hackathon, inspire
 - 🎯 **Accessibility First**: Text-to-speech and keyboard navigation support
 - 🎤 **Mic Integration**: Voice control and speech-to-text support for accessibility and interactive gameplay
 
+[![Tech Stack](https://skillicons.dev/icons?i=threejs,typescript,next,bun,firebase)]()
+
 ## Technical Features
 
 *   **Web App:**
